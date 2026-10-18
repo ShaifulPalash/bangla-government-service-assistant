@@ -10,7 +10,6 @@ allowed_domains:
   - dip.gov.bd
   - ecs.gov.bd
   - nidw.gov.bd
-  - satkhira.gov.bd
 
 sources:
   # PASSPORT SOURCES (6)
