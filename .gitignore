@@ -16,3 +16,10 @@ htmlcov/
 .idea/
 .vscode/
 .DS_Store
+
+# Temporary OCR review backups
+data/processed/nid/**/*.before-*
+
+# Raw and processed documents: not published until redistribution is reviewed
+data/raw/
+data/processed/

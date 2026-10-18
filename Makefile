@@ -1,7 +1,7 @@
 ### Makefile - Project Development Commands
 
 # Declare targets that are not actual files
-.PHONY: install lint format test
+.PHONY: install lint format test check-sources fetch-sources
 
 
 # 1. Install Development Dependencies | Usage: make install
@@ -24,3 +24,12 @@ format:
 # 4. Run Tests | Usage: make test
 test:
 	pytest -q
+
+
+# 5. Validate Source Registry and Check Downloaded Files | Usage: make check-sources
+check-sources:
+	PYTHONPATH=src python -m app.ingest.sources
+
+# 6. Download Approved Sources | Usage: make fetch-sources
+fetch-sources:
+	PYTHONPATH=src python scripts/fetch_sources.py
