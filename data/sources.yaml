@@ -1,0 +1,333 @@
+# Official-source allow-list for the Bangla Government Service Assistant.
+# Register every document before allowing it into the knowledge base.
+#
+# capture:
+#   download = permitted automated download
+#   manual   = capture the publicly visible content manually, if permitted
+
+allowed_domains:
+  - epassport.gov.bd
+  - dip.gov.bd
+  - ecs.gov.bd
+  - nidw.gov.bd
+  - satkhira.gov.bd
+
+sources:
+  # PASSPORT SOURCES (6)
+
+  - id: ppt-001
+    title: "E-Passport Application Instructions"
+    url: "https://epassport.gov.bd/instructions/instructions"
+    service: passport
+    language: bn
+    doc_type: text
+    capture: manual
+    publisher: "Department of Immigration and Passports"
+    published_date: null
+    last_updated_date: 2026-08-03
+    verified_date: 2026-10-14
+    notes: >-
+      Official Bangla application instructions. The automated download
+      previously captured only a JavaScript shell. Capture the rendered
+      public page if permitted, inspect the saved HTML, and verify the
+      instructions before indexing.
+
+  - id: ppt-002
+    title: "E-Passport Fees and Payment Options"
+    url: "https://epassport.gov.bd/instructions/passport-fees"
+    service: passport
+    language: en
+    doc_type: text
+    capture: manual
+    publisher: "Department of Immigration and Passports"
+    published_date: null
+    last_updated_date: 2026-07-12
+    verified_date: 2026-10-14
+    notes: >-
+      Official fee and payment page. The page contains English fee and
+      payment information. Capture the rendered content, confirm the
+      language of the saved file, and check the current fee schedule
+      before indexing. Do not rely on older fee copies.
+
+  - id: ppt-003
+    title: "Application at RPO Bangladesh Secretariat and Dhaka Cantonment"
+    url: "https://epassport.gov.bd/instructions/application-form"
+    service: passport
+    language: en
+    doc_type: text
+    capture: manual
+    publisher: "Department of Immigration and Passports"
+    published_date: null
+    last_updated_date: 2026-06-03
+    verified_date: 2026-10-14
+    notes: >-
+      Official page describing the application form for the specified
+      passport offices. It is not a universal application form for all
+      regional passport offices. Capture the readable public page and
+      preserve the eligibility limitation.
+
+  - id: ppt-004
+    title: "Documents to Carry for Passport Enrollment"
+    url: "https://epassport.gov.bd/landing/notices/34"
+    service: passport
+    language: mixed
+    doc_type: text
+    capture: manual
+    publisher: "Department of Immigration and Passports"
+    published_date: null
+    last_updated_date: 2025-05-07
+    verified_date: 2026-10-15
+    notes: >-
+      Official Bangla and English enrollment document guidance.
+      Capture the readable public content into a text file, preserve
+      the original URL and update date, and check for newer guidance
+      before relying on the document requirements.
+
+  - id: ppt-005
+    title: "Documents Checklist for E-Passport Enrollment"
+    url: "https://epassport.gov.bd/landing/notices/160"
+    service: passport
+    language: bn
+    doc_type: text
+    capture: manual
+    publisher: "Department of Immigration and Passports"
+    published_date: null
+    last_updated_date: 2024-10-21
+    verified_date: 2026-10-14
+    notes: >-
+      Official enrollment checklist. The page lists supporting documents
+      and special cases. Its displayed update date is older than the
+      review date; check for a newer checklist before using it to answer
+      current requirements. Preserve its update date in the extracted
+      metadata.
+
+  - id: ppt-006
+    title: "Department of Immigration and Passports Citizen Charter"
+    url: "https://dip.gov.bd/pages/static-pages/6922e033933eb65569e25f86"
+    service: passport
+    language: bn
+    doc_type: text
+    capture: download
+    publisher: "Department of Immigration and Passports"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-14
+    notes: >-
+      Official citizen-charter page containing passport service
+      information. Inspect the downloaded file, extract only relevant
+      passport guidance, and verify its service requirements and fee
+      links against the current e-Passport portal.
+
+
+  # NATIONAL IDENTITY CARD SOURCES (11)
+
+  - id: nid-001
+    title: "NID Form 6 - Replacement for Lost or Damaged Card"
+    url: "https://asset.ecs.gov.bd/media/uploaded_files/page_tables/2026/06/db86bb46-99b4-4afd-b0ff-d83f39bd4b41.pdf"
+    service: nid
+    language: bn
+    doc_type: pdf
+    capture: download
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-14
+    notes: >-
+      Official two-page Form 6 PDF. Bengali OCR was needed because
+      embedded text extraction was garbled. Preserve the original PDF,
+      store OCR output separately, and mark the OCR as imperfect.
+      Manually review important instructions before indexing.
+
+  - id: nid-002
+    title: "NID FAQ - General Instructions"
+    url: "https://services.nidw.gov.bd/nid-pub/faq?tab=faq-general"
+    service: nid
+    language: bn
+    doc_type: text
+    capture: manual
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Manually captured Bangla content from the General Instructions
+      section of the official NID Online Services FAQ. Includes account
+      registration, new voter registration, NID information updates,
+      supporting-document requirements, and related instructions.
+      Website content may change; verify current requirements against
+      the live official service. Preserve the original wording and
+      review legal or administrative requirements before indexing.
+
+  
+  - id: nid-003
+    title: "NID FAQ - Correction-related Questions"
+    url: "https://services.nidw.gov.bd/nid-pub/faq?tab=faq-general"
+    service: nid
+    language: bn
+    doc_type: text
+    capture: manual
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Manually captured Bangla content from the correction-related
+      questions section of the official NID Online Services FAQ.
+      Contains 22 questions and answers about NID information corrections,
+      supporting documents, address changes, and related procedures.
+      Some answers may describe outdated policies. Verify current
+      requirements against official rules before indexing or relying
+      on individual answers.
+
+  - id: nid-004
+    title: "NID FAQ - Lost NID and Reissue Questions"
+    url: "https://services.nidw.gov.bd/nid-pub/faq?tab=faq-general"
+    service: nid
+    language: bn
+    doc_type: text
+    capture: manual
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Manually captured Bangla content from the lost-NID section of
+      the official NID Online Services FAQ. Contains five questions
+      and answers about reissue applications, fees, and the order of
+      lost-card reissue and correction procedures. Fees and procedures
+      may change; verify current requirements against the official
+      service before relying on individual answers.
+  
+  - id: nid-005
+    title: "NID FAQ - NID and Registration Questions"
+    url: "https://services.nidw.gov.bd/nid-pub/faq?tab=faq-general"
+    service: nid
+    language: bn
+    doc_type: text
+    capture: manual
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Manually captured Bangla content from the NID and registration
+      questions section of the official NID Online Services FAQ.
+      Contains 18 questions and answers about voter registration,
+      NID cards, required documents, duplicate registration, and
+      related procedures. Some answers refer to older registration
+      periods or policies and may be outdated. Verify current
+      requirements against the official service and applicable rules
+      before relying on individual answers.
+
+  - id: nid-006
+    title: "NID Fee Schedule - Historical Notice (2015)"
+    url: "https://services.nidw.gov.bd/nid-pub/fees"
+    service: nid
+    language: mixed
+    doc_type: text
+    capture: manual
+    publisher: "Bangladesh Election Commission"
+    published_date: 2015-09-01
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Historical fee schedule captured from an image displayed on the
+      official NID fee-calculator page. The original image is stored at
+      data/raw/nid/nid-006-fees.jpg. OCR output is stored at
+      data/processed/nid/nid-006-fees-raw.txt, and the manually reviewed
+      transcription is stored at data/processed/nid/nid-006-fees.txt.
+      The notice is dated 1 September 2015. Its fees, VAT treatment,
+      processing categories, and payment instructions have not been
+      verified as current. Do not use these amounts as current fees;
+      direct users to the official NID service for current information.
+
+  - id: nid-007
+    title: "জাতীয় পরিচয় নিবন্ধন বিধিমালা, ২০১৪"
+    url: "https://asset.ecs.gov.bd/media/uploaded_files/page_tables/2026/06/b192fe5a-8b1a-47e9-9e7a-39c4b74b5fb0.pdf"
+    service: nid
+    language: bn
+    doc_type: pdf
+    capture: download
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Official PDF of the National Identity Registration Rules, 2014,
+      obtained from the Bangladesh Election Commission website.
+      The PDF contains 23 pages. Verify the document's printed date
+      and check applicable amendments before relying on individual
+      provisions as current requirements.
+
+  - id: nid-008
+    title: "জাতীয় পরিচয় নিবন্ধন বিধিমালা, ২০১৪ এর সংশোধনী"
+    url: "https://asset.ecs.gov.bd/media/uploaded_files/page_tables/2026/06/6bc81480-1f5c-4acc-ba73-38911429cd22.pdf"
+    service: nid
+    language: bn
+    doc_type: pdf
+    capture: download
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Official amendment to the National Identity Registration Rules,
+      2014, obtained from the Bangladesh Election Commission website.
+      The PDF contains 2 pages. The date shown on the index is
+      12 February 2015; verify the printed date and the provisions
+      amended before relying on this document as current law.
+
+  - id: nid-009
+    title: "জাতীয় পরিচয়পত্র ও তথ্য-উপাত্ত (সংশোধন, যাচাই এবং সরবরাহ) প্রবিধানমালা, ২০১৪"
+    url: "https://asset.ecs.gov.bd/media/uploaded_files/page_tables/2026/06/b664fb39-9036-45ec-9653-2eaf99c127b6.pdf"
+    service: nid
+    language: bn
+    doc_type: pdf
+    capture: download
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Official PDF of the National Identity Card and Data
+      (Correction, Verification and Supply) Regulations, 2014,
+      obtained from the Bangladesh Election Commission website.
+      The PDF contains 20 pages. Verify the printed date and check
+      applicable amendments before relying on individual provisions
+      as current requirements.
+
+  - id: nid-010
+    title: "জাতীয় পরিচয়পত্র ও তথ্য-উপাত্ত (সংশোধন, যাচাই এবং সরবরাহ) প্রবিধানমালা ২০১৪ এর সংশোধনী"
+    url: "https://asset.ecs.gov.bd/media/uploaded_files/page_tables/2026/06/49ab6cf3-7ff9-410a-bd93-be1713c33467.pdf"
+    service: nid
+    language: bn
+    doc_type: pdf
+    capture: download
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Official amendment to the National Identity Card and Data
+      (Correction, Verification and Supply) Regulations, 2014,
+      obtained from the Bangladesh Election Commission website.
+      The PDF contains 3 pages. The date shown on the index is
+      2 March 2023; verify the printed date and the provisions
+      amended before relying on this document as current law.
+
+  - id: nid-011
+    title: "NID Form 2 - NID Correction Form"
+    url: "https://services.nidw.gov.bd/resources/forms/New_Correction_Form.pdf"
+    service: nid
+    language: bn
+    doc_type: pdf
+    capture: download
+    publisher: "Bangladesh Election Commission"
+    published_date: null
+    last_updated_date: null
+    verified_date: 2026-10-15
+    notes: >-
+      Official Form 2 obtained from the NID services website.
+      Inspect the PDF to confirm its exact purpose, required
+      information, and supporting documents before using it
+      to answer questions about NID correction procedures.
