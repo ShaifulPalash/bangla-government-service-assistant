@@ -33,3 +33,5 @@ check-sources:
 # 6. Download Approved Sources | Usage: make fetch-sources
 fetch-sources:
 	PYTHONPATH=src python scripts/fetch_sources.py
+build-documents:
+	PYTHONPATH=src python -m app.ingest.documents
