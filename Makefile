@@ -47,3 +47,5 @@ build-vector-index:
 
 build-keyword-index:
 	PYTHONPATH=src python -m app.indexing.keyword_index
+
+build-index: build-vector-index build-keyword-index
