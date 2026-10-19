@@ -1,7 +1,7 @@
 ### Makefile - Project Development Commands
 
 # Declare targets that are not actual files
-.PHONY: install lint format test check-sources fetch-sources
+.PHONY: install lint format test check-sources fetch-sources build-documents build-chunks embed-chunks build-vector-index build-keyword-index build-index
 
 
 # 1. Install Development Dependencies | Usage: make install
@@ -43,6 +43,7 @@ embed-chunks:
 	PYTHONPATH=src python -m app.indexing.embeddings
 
 build-vector-index:
+	rm -rf data/index/chroma
 	PYTHONPATH=src python -m app.indexing.vector_index
 
 build-keyword-index:
