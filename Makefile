@@ -35,3 +35,12 @@ fetch-sources:
 	PYTHONPATH=src python scripts/fetch_sources.py
 build-documents:
 	PYTHONPATH=src python -m app.ingest.documents
+
+build-chunks:
+	PYTHONPATH=src python -m app.indexing.chunker
+
+embed-chunks:
+	PYTHONPATH=src python -m app.indexing.embeddings
+
+build-vector-index:
+	PYTHONPATH=src python -m app.indexing.vector_index
