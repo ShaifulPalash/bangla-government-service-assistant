@@ -23,3 +23,6 @@ data/processed/nid/**/*.before-*
 # Raw and processed documents: not published until redistribution is reviewed
 data/raw/
 data/processed/
+
+# Search index contains document text: private until redistribution is reviewed
+data/index/
