@@ -59,3 +59,6 @@ check-eval-strict:
 
 eval-retrieval:
 	PYTHONPATH=src python -m app.evaluation.retrieval_eval
+
+eval-variants:
+	PYTHONPATH=src python -m app.evaluation.hybrid_eval
