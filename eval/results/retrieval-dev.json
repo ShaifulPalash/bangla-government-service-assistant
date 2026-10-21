@@ -1,0 +1,355 @@
+{
+  "split": "dev",
+  "top_k": 10,
+  "report": {
+    "n_questions": 13,
+    "methods": {
+      "word": {
+        "overall": {
+          "n": 13,
+          "hit@1": 0.5384615384615384,
+          "hit@3": 0.6923076923076923,
+          "hit@5": 0.6923076923076923,
+          "mrr": 0.6153846153846154
+        },
+        "passage": {
+          "n": 0,
+          "hit@1": null,
+          "hit@3": null,
+          "hit@5": null,
+          "mrr": null
+        },
+        "by_language": {
+          "bn": {
+            "n": 7,
+            "hit@1": 0.42857142857142855,
+            "hit@3": 0.5714285714285714,
+            "hit@5": 0.5714285714285714,
+            "mrr": 0.5238095238095238
+          },
+          "en": {
+            "n": 6,
+            "hit@1": 0.6666666666666666,
+            "hit@3": 0.8333333333333334,
+            "hit@5": 0.8333333333333334,
+            "mrr": 0.7222222222222222
+          }
+        },
+        "by_service": {
+          "nid": {
+            "n": 6,
+            "hit@1": 0.5,
+            "hit@3": 0.6666666666666666,
+            "hit@5": 0.6666666666666666,
+            "mrr": 0.5555555555555556
+          },
+          "passport": {
+            "n": 7,
+            "hit@1": 0.5714285714285714,
+            "hit@3": 0.7142857142857143,
+            "hit@5": 0.7142857142857143,
+            "mrr": 0.6666666666666667
+          }
+        },
+        "per_question": {
+          "q001": {
+            "doc_rank": null,
+            "passage_rank": null
+          },
+          "q002": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q003": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q004": {
+            "doc_rank": 2,
+            "passage_rank": null
+          },
+          "q006": {
+            "doc_rank": 6,
+            "passage_rank": null
+          },
+          "q008": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q010": {
+            "doc_rank": null,
+            "passage_rank": null
+          },
+          "q011": {
+            "doc_rank": 3,
+            "passage_rank": null
+          },
+          "q012": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q013": {
+            "doc_rank": null,
+            "passage_rank": null
+          },
+          "q014": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q018": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q029": {
+            "doc_rank": 1,
+            "passage_rank": null
+          }
+        }
+      },
+      "meaning": {
+        "overall": {
+          "n": 13,
+          "hit@1": 0.9230769230769231,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "mrr": 0.9615384615384616
+        },
+        "passage": {
+          "n": 0,
+          "hit@1": null,
+          "hit@3": null,
+          "hit@5": null,
+          "mrr": null
+        },
+        "by_language": {
+          "bn": {
+            "n": 7,
+            "hit@1": 0.8571428571428571,
+            "hit@3": 1.0,
+            "hit@5": 1.0,
+            "mrr": 0.9285714285714286
+          },
+          "en": {
+            "n": 6,
+            "hit@1": 1.0,
+            "hit@3": 1.0,
+            "hit@5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        "by_service": {
+          "nid": {
+            "n": 6,
+            "hit@1": 1.0,
+            "hit@3": 1.0,
+            "hit@5": 1.0,
+            "mrr": 1.0
+          },
+          "passport": {
+            "n": 7,
+            "hit@1": 0.8571428571428571,
+            "hit@3": 1.0,
+            "hit@5": 1.0,
+            "mrr": 0.9285714285714286
+          }
+        },
+        "per_question": {
+          "q001": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q002": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q003": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q004": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q006": {
+            "doc_rank": 2,
+            "passage_rank": null
+          },
+          "q008": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q010": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q011": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q012": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q013": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q014": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q018": {
+            "doc_rank": 1,
+            "passage_rank": null
+          },
+          "q029": {
+            "doc_rank": 1,
+            "passage_rank": null
+          }
+        }
+      }
+    }
+  },
+  "top_scores": {
+    "answer": {
+      "n": 13,
+      "min": 0.7690185308456421,
+      "median": 0.812182605266571,
+      "max": 0.8403438329696655
+    },
+    "clarify": {
+      "n": 3,
+      "min": 0.6705294847488403,
+      "median": 0.7236300706863403,
+      "max": 0.741018533706665
+    },
+    "refuse": {
+      "n": 4,
+      "min": 0.6459133625030518,
+      "median": 0.7035028338432312,
+      "max": 0.8303172588348389
+    }
+  },
+  "top_score_per_question": [
+    {
+      "id": "q029",
+      "behavior": "answer",
+      "type": "outdated",
+      "score": 0.8403438329696655
+    },
+    {
+      "id": "q003",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.8365744352340698
+    },
+    {
+      "id": "q011",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.8358584642410278
+    },
+    {
+      "id": "q028",
+      "behavior": "refuse",
+      "type": "outdated",
+      "score": 0.8303172588348389
+    },
+    {
+      "id": "q010",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.8284708857536316
+    },
+    {
+      "id": "q002",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.8257086277008057
+    },
+    {
+      "id": "q018",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.8153432011604309
+    },
+    {
+      "id": "q013",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.812182605266571
+    },
+    {
+      "id": "q012",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.8108507394790649
+    },
+    {
+      "id": "q001",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.8073083162307739
+    },
+    {
+      "id": "q014",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.7926768660545349
+    },
+    {
+      "id": "q008",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.7881336808204651
+    },
+    {
+      "id": "q004",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.787928581237793
+    },
+    {
+      "id": "q006",
+      "behavior": "answer",
+      "type": "answerable",
+      "score": 0.7690185308456421
+    },
+    {
+      "id": "q027",
+      "behavior": "clarify",
+      "type": "ambiguous",
+      "score": 0.741018533706665
+    },
+    {
+      "id": "q025",
+      "behavior": "clarify",
+      "type": "ambiguous",
+      "score": 0.7236300706863403
+    },
+    {
+      "id": "q022",
+      "behavior": "refuse",
+      "type": "out_of_scope",
+      "score": 0.7175822854042053
+    },
+    {
+      "id": "q020",
+      "behavior": "refuse",
+      "type": "out_of_scope",
+      "score": 0.6894233822822571
+    },
+    {
+      "id": "q024",
+      "behavior": "clarify",
+      "type": "ambiguous",
+      "score": 0.6705294847488403
+    },
+    {
+      "id": "q019",
+      "behavior": "refuse",
+      "type": "out_of_scope",
+      "score": 0.6459133625030518
+    }
+  ]
+}

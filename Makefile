@@ -56,3 +56,6 @@ check-eval:
 
 check-eval-strict:
 	PYTHONPATH=src python -m app.evaluation.dataset --strict
+
+eval-retrieval:
+	PYTHONPATH=src python -m app.evaluation.retrieval_eval
