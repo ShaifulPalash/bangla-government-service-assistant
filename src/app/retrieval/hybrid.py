@@ -19,6 +19,9 @@ from app.indexing.vector_index import open_collection, search_vectors
 RRF_K = 60  # the usual constant: it keeps one very high rank from dominating
 DEPTH = 20  # how many candidates each search contributes before fusion
 MODES = ("meaning", "word", "hybrid")
+# Chosen from the dev-set comparison (eval/results/variants-dev.json): meaning search
+# alone found the right document first for every question; every hybrid did worse.
+DEFAULT_MODE = "meaning"
 
 DETAIL_FIELDS = (
     "chunk_id",
@@ -95,7 +98,7 @@ class Retriever:
         self,
         question: str,
         k: int = 8,
-        mode: str = "hybrid",
+        mode: str = DEFAULT_MODE,
         weights: dict[str, float] | None = None,
         service: str | None = None,
         exclude_docs: frozenset[str] = frozenset(),
