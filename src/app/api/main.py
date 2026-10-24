@@ -14,7 +14,7 @@ from contextlib import asynccontextmanager
 from typing import Literal
 
 from fastapi import FastAPI, Query
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel
 
 from app.config import get_settings
@@ -88,6 +88,11 @@ def create_app(retriever_factory: Callable[[], Retriever] = default_retriever) -
         yield
 
     app = FastAPI(title="Bangla Government-Service Assistant", version="0.3.0", lifespan=lifespan)
+
+    @app.get("/", include_in_schema=False)
+    def root():
+        """The base address sends visitors to the interactive documentation."""
+        return RedirectResponse(url="/docs")
 
     @app.get("/health", response_model=HealthResponse)
     def health():

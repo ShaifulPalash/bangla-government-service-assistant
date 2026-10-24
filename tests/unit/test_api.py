@@ -133,3 +133,10 @@ def test_embedding_failure_becomes_a_502_not_a_crash():
         response = client.get("/search", params={"q": "passport fee"})
     assert response.status_code == 502
     assert "unavailable" in response.json()["error"]
+
+
+def test_the_base_address_redirects_to_the_documentation():
+    with client_for() as client:
+        response = client.get("/", follow_redirects=False)
+    assert response.status_code == 307
+    assert response.headers["location"] == "/docs"
