@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     # API keys
     gemini_api_key: SecretStr | None = None
     groq_api_key: SecretStr | None = None
+    gemini_model: str = "gemini-3.8-flash"  # chosen from the official model pages, 24 Oct 2026
+    groq_model: str = "openai/gpt-oss-120b"  # backup
 
 
 # Cached settings function
