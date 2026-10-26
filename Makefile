@@ -65,3 +65,6 @@ eval-variants:
 
 serve:
 	PYTHONPATH=src uvicorn app.api.main:app --port 8000 --no-access-log
+
+eval-llm:
+	PYTHONPATH=src python -m app.evaluation.llm_bakeoff
