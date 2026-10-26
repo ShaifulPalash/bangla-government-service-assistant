@@ -17,7 +17,7 @@ from app.config import Settings
 
 logger = logging.getLogger(__name__)
 
-TIMEOUT_SECONDS = 30.0
+TIMEOUT_SECONDS = 15.0
 MAX_RETRIES = 2
 MAX_RETRY_WAIT = 5.0  # seconds; a longer wait is not worth it, the next provider tries instead
 RETRY_STATUSES = {429, 500, 502, 503, 504}
@@ -57,6 +57,11 @@ def _retry_after(response: httpx.Response) -> float | None:
     return float(value) if value.replace(".", "", 1).isdigit() else None
 
 
+def _is_daily_quota(status: int, message: str) -> bool:
+    """True for a 429 that says the limit is per day: waiting a few seconds cannot help."""
+    return status == 429 and "per day" in message.lower()
+
+
 def post_json(
     client: httpx.Client,
     url: str,
@@ -70,6 +75,10 @@ def post_json(
         wait: float | None = None
         try:
             response = client.post(url, json=body, headers=headers)
+        except httpx.TimeoutException as error:
+            # A timeout means the provider is slow right now. Do not wait again:
+            # raise at once so the chain can hand over to the next provider.
+            raise LLMError(f"timeout: {type(error).__name__}") from error
         except httpx.TransportError as error:
             problem = f"network error: {type(error).__name__}"
         else:
@@ -79,7 +88,9 @@ def post_json(
                 except ValueError as error:
                     raise LLMError("the provider sent a reply that is not JSON") from error
             problem = f"HTTP {response.status_code}: {_error_message(response)}"
-            if response.status_code not in RETRY_STATUSES:
+            if response.status_code not in RETRY_STATUSES or _is_daily_quota(
+                response.status_code, problem
+            ):
                 raise LLMError(problem)
             wait = _retry_after(response)
         if attempt == MAX_RETRIES:
