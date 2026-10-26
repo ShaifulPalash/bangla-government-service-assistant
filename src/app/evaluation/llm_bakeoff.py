@@ -22,6 +22,7 @@ from app.evaluation.retrieval_eval import RESULTS_DIR
 from app.indexing.embeddings import CACHE_FILE
 from app.indexing.vector_index import IndexMismatchError
 from app.ingest.text_cleaning import fold_digits
+from app.llm.language import answer_language, detect_language
 from app.llm.prompts import (
     SYSTEM_PROMPT,
     ParsedAnswer,
@@ -107,7 +108,8 @@ def run_bakeoff(
     rows: list[dict] = []
     for question in questions:
         passages = retriever.retrieve(question.question, k=TOP_K, mode="meaning")
-        user = build_user_prompt(question.question, passages)
+        language = answer_language(detect_language(question.question))
+        user = build_user_prompt(question.question, passages, language)
         evidence = format_sources(passages)
         for label, client in candidates.items():
             row: dict = {"question_id": question.id, "language": question.language, "model": label}
@@ -220,8 +222,10 @@ def build_candidates(settings: Settings, groq_effort: str | None, only: list[str
             key, "openai/gpt-oss-120b", reasoning_effort=groq_effort
         )
     if only:
-        candidates = {n: c for n, c in candidates.items() if any(word in n for word in only)}
-    return candidates
+        return {n: c for n, c in candidates.items() if any(word in n for word in only)}
+    # gemini-3.8-flash is left out unless asked for (--models 3.8): it timed out or hit its
+    # quota for 8 of 10 questions in the first bake-off.
+    return {n: c for n, c in candidates.items() if n != "gemini-3.8-flash"}
 
 
 def option(argv: list[str], name: str, default: str) -> str:
