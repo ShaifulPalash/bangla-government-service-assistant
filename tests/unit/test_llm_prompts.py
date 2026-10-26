@@ -66,3 +66,14 @@ def test_unreadable_reply_is_kept_as_text_with_unknown_can_answer():
     assert parsed.can_answer is None
     assert parsed.answer == "The fee is TK 4,025."
     assert parse_answer('{"can_answer": "maybe", "answer": "x"}').can_answer is None
+
+
+def test_user_prompt_names_the_answer_language_when_given():
+    prompt = build_user_prompt("What is the fee?", [passage()], "English")
+    assert prompt.endswith("QUESTION\nWhat is the fee?\n\nANSWER LANGUAGE\nEnglish")
+
+
+def test_system_prompt_requires_exact_numbers_and_plain_citations():
+    assert "exactly as they are written" in SYSTEM_PROMPT
+    assert "plain square brackets" in SYSTEM_PROMPT
+    assert "ANSWER LANGUAGE" in SYSTEM_PROMPT
