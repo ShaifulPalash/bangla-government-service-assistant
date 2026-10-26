@@ -221,14 +221,14 @@ class FallbackChain:
 
 
 def build_chain(settings: Settings) -> FallbackChain:
-    """Gemini first, Groq as the backup, for whichever keys are configured."""
+    """Groq first (fastest, no invented numbers in our bake-off), Gemini as the backup."""
     clients: list = []
+    if settings.groq_api_key:
+        clients.append(GroqClient(settings.groq_api_key.get_secret_value(), settings.groq_model))
     if settings.gemini_api_key:
         clients.append(
             GeminiClient(settings.gemini_api_key.get_secret_value(), settings.gemini_model)
         )
-    if settings.groq_api_key:
-        clients.append(GroqClient(settings.groq_api_key.get_secret_value(), settings.groq_model))
     if not clients:
         raise LLMError("no language-model key is configured")
     return FallbackChain(clients)

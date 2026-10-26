@@ -169,7 +169,7 @@ def test_chain_reports_every_failure_when_all_fail():
 
 def test_build_chain_follows_the_configured_keys():
     both = Settings(_env_file=None, gemini_api_key=SecretStr("g"), groq_api_key=SecretStr("q"))
-    assert [client.provider for client in build_chain(both).clients] == ["gemini", "groq"]
+    assert [client.provider for client in build_chain(both).clients] == ["groq", "gemini"]
     only_groq = Settings(_env_file=None, groq_api_key=SecretStr("q"))
     assert [client.provider for client in build_chain(only_groq).clients] == ["groq"]
     with pytest.raises(LLMError, match="no language-model key"):
