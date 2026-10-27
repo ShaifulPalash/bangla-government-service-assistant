@@ -62,3 +62,12 @@ eval-retrieval:
 
 eval-variants:
 	PYTHONPATH=src python -m app.evaluation.hybrid_eval
+
+serve:
+	PYTHONPATH=src uvicorn app.api.main:app --port 8000 --no-access-log
+
+eval-llm:
+	PYTHONPATH=src python -m app.evaluation.llm_bakeoff
+
+eval-e2e:
+	PYTHONPATH=src python -m app.evaluation.end_to_end

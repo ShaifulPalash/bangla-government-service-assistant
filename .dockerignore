@@ -1,0 +1,7 @@
+# Exclude everything, then allow only what the image needs
+*
+!requirements-api.txt
+!src/
+!data/index/
+**/__pycache__
+**/*.pyc

@@ -1,0 +1,417 @@
+{
+  "summary": {
+    "gemini-3.5-flash-lite": {
+      "questions": 10,
+      "errors": 0,
+      "json_ok": 10,
+      "behavior_ok": 8,
+      "cited_ok": 10,
+      "with_invented_numbers": 1,
+      "language_ok": 10,
+      "avg_latency_ms": 3007.0,
+      "avg_prompt_tokens": 1070.6,
+      "avg_output_tokens": 122.8
+    },
+    "groq gpt-oss-120b": {
+      "questions": 10,
+      "errors": 0,
+      "json_ok": 10,
+      "behavior_ok": 9,
+      "cited_ok": 10,
+      "with_invented_numbers": 0,
+      "language_ok": 10,
+      "avg_latency_ms": 937.8,
+      "avg_prompt_tokens": 1233.1,
+      "avg_output_tokens": 146.9
+    }
+  },
+  "rows": [
+    {
+      "question_id": "q001",
+      "language": "bn",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "বাংলাদেশে ১৫% ভ্যাটসহ ই-পাসপোর্টের ফি বিভিন্ন পাতা, মেয়াদ ও ডেলিভারির ধরন অনুযায়ী নির্ধারিত হয় (যেমন: ৪৮ পৃষ্ঠা ও ৫ বছর মেয়াদী নিয়মিত ডেলিভারি TK 4,025, এক্সপ্রেস ডেলিভারি TK 6,325 এবং সুপার এক্সপ্রেস ডেলিভারি TK 8,625) [১]। সূত্র অনুযায়ী এই নিয়ম ও ফিয়ের তথ্যটি ১২ জুলাই ২০২৬ তারিখে আপডেট করা হয়েছে, এবং মনে রাখবেন যে নিয়ম পরিবর্তন হতে পারে।",
+      "sources": [
+        1,
+        2
+      ],
+      "latency_ms": 4039,
+      "prompt_tokens": 1147,
+      "output_tokens": 143
+    },
+    {
+      "question_id": "q001",
+      "language": "bn",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "ই‑পাসপোর্টের ফি (১৫% ভ্যাটসহ) ৪৮ পেজ, ৫ বছরের জন্য: রেগুলার ডেলিভারি – টিকেঃ 4,025; এক্সপ্রেস – টিকেঃ 6,325; সুপার এক্সপ্রেস – টিকেঃ 8,625। ৪৮ পেজ, ১০ বছরের জন্য: রেগুলার – টিকেঃ 5,750; এক্সপ্রেস – টিকেঃ 8,050; সুপার এক্সপ্রেস – টিকেঃ 10,350। ৬৪ পেজ, ৫ বছরের জন্য: রেগুলার – টিকেঃ 6,325; এক্সপ্রেস – টিকেঃ 8,625; সুপার এক্সপ্রেস – টিকেঃ 12,075। (সূত্র: ১, ২, ৩ – ২০২৬‑০৭‑১২ তারিখে আপডেট করা হয়েছে, নিয়ম পরিবর্তন হতে পারে।)",
+      "sources": [
+        1,
+        2,
+        3
+      ],
+      "latency_ms": 1054,
+      "prompt_tokens": 1130,
+      "output_tokens": 274
+    },
+    {
+      "question_id": "q002",
+      "language": "en",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "You can pay e-passport fees online through \"A-Challan\", \"DGePay\", and \"ShurjoPay\" using various payment options including VISA, Master Card, American Express, bKash, Nagad, Rocket, Upay, Dmoney, OK Wallet, and selected banks [1]. Please note that as of the 12 July 2026 source update, rules can change [1].",
+      "sources": [
+        1
+      ],
+      "latency_ms": 1276,
+      "prompt_tokens": 1142,
+      "output_tokens": 112
+    },
+    {
+      "question_id": "q002",
+      "language": "en",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "You can pay the e‑passport fee online via the e‑Passport portal using \"A‑Challan\", \"DGePay\" or \"ShurjoPay\". These options accept VISA, MasterCard, American Express, bKash, Nagad, Rocket, Upay, Dmoney, OK Wallet and many banks (e.g., Bank Asia, BRAC Bank, EBL, City Bank, UCB, AB Bank, DBBL, Midland Bank, MBL, Rainbow). After selecting a method, follow the on‑screen instructions to complete the payment and download the receipt. (Source: [1], [2])",
+      "sources": [
+        1,
+        2
+      ],
+      "latency_ms": 1031,
+      "prompt_tokens": 1147,
+      "output_tokens": 222
+    },
+    {
+      "question_id": "q003",
+      "language": "en",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "To carry for e-passport enrollment, you need the printed application summary including appointment, identification documents such as your NID card or birth certificate, the payment slip for offline payment only, and your previous passport if applicable [1, 2]. Government service holders must also carry a GO/NOC if applicable [1, 2]. Based on sources dated 7 May 2025, rules can change [1, 2].",
+      "sources": [
+        1,
+        2
+      ],
+      "latency_ms": 1313,
+      "prompt_tokens": 976,
+      "output_tokens": 125
+    },
+    {
+      "question_id": "q003",
+      "language": "en",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "You must bring: (1) the printed PDF copy of your online application (including appointment details); (2) the payment slip/receipt if you are paying offline; (3) your original and photocopy of the National ID card (for citizens over 20) or original birth certificate; (4) the original and photocopy of the online birth registration certificate (English version); (5) your previous passport, if you have one; and (6) a GO/NOC if you are a government employee. Requirements are based on the latest update on 7 May 2025 and may change.",
+      "sources": [
+        1,
+        2,
+        3
+      ],
+      "latency_ms": 884,
+      "prompt_tokens": 1144,
+      "output_tokens": 187
+    },
+    {
+      "question_id": "q006",
+      "language": "bn",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "পাসপোর্ট হারিয়ে গেলে বা চুরি হলে দ্রুত নিকটস্থ থানায় জিডি করতে হবে এবং মূল জিডির কপি প্রদর্শন বা দাখিল করতে হবে [১, ২]। পুনরায় পাসপোর্টের জন্য আবেদনের সময় পুরাতন পাসপোর্টের ফটোকপি এবং জিডি কপিসহ আবেদনপত্র দাখিল করতে হবে [১]। এই নিয়মগুলো পরিবর্তন হতে পারে (সূত্র: E-Passport Application Instructions, আপডেট তারিখ: ২০২৬-০৮-০৩ এবং Citizen Charter, চেক করার তারিখ: ২০২৬-১০-১৪) [১, ২]।",
+      "sources": [
+        1,
+        2
+      ],
+      "latency_ms": 3073,
+      "prompt_tokens": 1130,
+      "output_tokens": 133
+    },
+    {
+      "question_id": "q006",
+      "language": "bn",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "পাসপোর্ট হারিয়ে গেলে নিকটস্থ থানায় দ্রুত জিডি (GD) করতে হবে এবং জিডি কপি সংগ্রহ করতে হবে। এরপর পুরাতন পাসপোর্টের ফটোকপি এবং জিডি কপি সহ আবেদনপত্র দাখিল করতে হবে। আবেদনপত্রে সাম্প্রতিক ল্যাব‑প্রিন্ট রঙিন ছবি (৩R সাইজ) সংযুক্ত করতে হবে।",
+      "sources": [
+        1,
+        2
+      ],
+      "latency_ms": 906,
+      "prompt_tokens": 1484,
+      "output_tokens": 153
+    },
+    {
+      "question_id": "q010",
+      "language": "bn",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "হারানো বা নষ্ট হইবার কারণে নূতন জাতীয় পরিচয়পত্র প্রাপ্তির জন্য ফরম-৬ পূরণ করিতে হয় [১]। (সূত্র: ২০১৪-১০-১৪ তারিখের তথ্য অনুযায়ী, নিয়মাবলী পরিবর্তন হইতে পারে)",
+      "sources": [
+        1
+      ],
+      "latency_ms": 8870,
+      "prompt_tokens": 964,
+      "output_tokens": 63
+    },
+    {
+      "question_id": "q010",
+      "language": "bn",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "হারানো বা নষ্ট এনআইডি কার্ডের জন্য ‘ফরম‑৬’ (NID Form 6) পূরণ করতে হয়।",
+      "sources": [
+        1
+      ],
+      "latency_ms": 738,
+      "prompt_tokens": 1190,
+      "output_tokens": 84
+    },
+    {
+      "question_id": "q013",
+      "language": "en",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "Based on the official documents dated 2026-10-15 (note that rules can change), you can apply to correct incorrect information on your NID card, such as your name in Bengali or English, date of birth [3], father's/husband's/mother's information erroneously marked as deceased [1], and your signature [2]. Please note that any single piece of information can only be corrected once, and sufficient supporting documents must be submitted with your application [1, 2, 3].",
+      "sources": [
+        1,
+        2,
+        3
+      ],
+      "latency_ms": 2102,
+      "prompt_tokens": 1085,
+      "output_tokens": 139
+    },
+    {
+      "question_id": "q013",
+      "language": "en",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": true,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "You may apply to correct any wrong information on the NID card, such as the holder’s name, birth date, father’s/mother’s or spouse’s status (e.g., mistakenly marked as deceased), and the signature; each piece of information can be corrected only once. [1][2]",
+      "sources": [
+        1,
+        2
+      ],
+      "latency_ms": 1544,
+      "prompt_tokens": 1391,
+      "output_tokens": 196
+    },
+    {
+      "question_id": "q019",
+      "language": "en",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": false,
+      "expected_can_answer": false,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "I could not find information about how to pay an electricity bill in the official documents.",
+      "sources": [],
+      "latency_ms": 1321,
+      "prompt_tokens": 949,
+      "output_tokens": 46
+    },
+    {
+      "question_id": "q019",
+      "language": "en",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": false,
+      "expected_can_answer": false,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "I could not find information on how to pay an electricity bill in the provided documents.",
+      "sources": [],
+      "latency_ms": 655,
+      "prompt_tokens": 1017,
+      "output_tokens": 71
+    },
+    {
+      "question_id": "q022",
+      "language": "en",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": false,
+      "expected_can_answer": false,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "I could not find the NID number of your neighbour Rahim in the official documents.",
+      "sources": [],
+      "latency_ms": 3147,
+      "prompt_tokens": 1161,
+      "output_tokens": 46
+    },
+    {
+      "question_id": "q022",
+      "language": "en",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": false,
+      "expected_can_answer": false,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "I could not find that information in the official documents.",
+      "sources": [],
+      "latency_ms": 929,
+      "prompt_tokens": 1500,
+      "output_tokens": 57
+    },
+    {
+      "question_id": "q024",
+      "language": "en",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": false,
+      "behavior_ok": false,
+      "cited_ok": true,
+      "invented_numbers": [
+        "300",
+        "400"
+      ],
+      "language_ok": true,
+      "answer": "The cost for an e-Passport or NID services varies depending on the type of application, delivery speed, validity, page count, and applicant category (such as general applicants, labors, or students), with fees listed in USD or BDT as of the source date 2026-07-12 and 2026-10-15 [1, 2, 3]. For example, an e-Passport with 48 pages and 5 years validity for general applicants is TK 4,025 for regular delivery, TK 6,325 for express delivery, and TK 8,625 for super express delivery, while mission general applicants pay USD 100 for regular and USD 150 for express delivery [2]. National ID correction fees are TK 200 for the first time, TK 300 for the second time, and TK 400 for any subsequent application [3]. Please note that rules and fees can change [1, 2, 3].",
+      "sources": [
+        1,
+        2,
+        3
+      ],
+      "latency_ms": 2943,
+      "prompt_tokens": 1027,
+      "output_tokens": 259
+    },
+    {
+      "question_id": "q024",
+      "language": "en",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": false,
+      "behavior_ok": false,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "The e‑Passport fee depends on the type and delivery option. For a 48‑page passport valid 5 years, regular delivery costs USD 100 and express delivery USD 150 (source dated 2026‑07‑12). For a 64‑page passport valid 10 years, regular delivery costs USD 175 and express delivery USD 225 (source dated 2026‑07‑12).",
+      "sources": [
+        1
+      ],
+      "latency_ms": 960,
+      "prompt_tokens": 1037,
+      "output_tokens": 149
+    },
+    {
+      "question_id": "q028",
+      "language": "en",
+      "model": "gemini-3.5-flash-lite",
+      "json_ok": true,
+      "can_answer": true,
+      "expected_can_answer": false,
+      "behavior_ok": false,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "Based on the 1 September 2015 source, for NID information correction (তথ্য-উপাত্ত সংশোধন), the fees are BDT 100 for the first application, BDT 200 for the second application, and BDT 300 for subsequent applications [1]. For general NID correction (জাতীয় পরিচয়পত্র সংশোধন), the fees are BDT 200 for the first application, BDT 300 for the second application, and BDT 400 for subsequent applications [1]. Please note that rules and fees can change, and this source is dated 1 September 2015 [1].",
+      "sources": [
+        1
+      ],
+      "latency_ms": 1986,
+      "prompt_tokens": 1125,
+      "output_tokens": 162
+    },
+    {
+      "question_id": "q028",
+      "language": "en",
+      "model": "groq gpt-oss-120b",
+      "json_ok": true,
+      "can_answer": false,
+      "expected_can_answer": false,
+      "behavior_ok": true,
+      "cited_ok": true,
+      "invented_numbers": [],
+      "language_ok": true,
+      "answer": "I could not find the current fee for correcting an NID card in the provided official documents.",
+      "sources": [],
+      "latency_ms": 677,
+      "prompt_tokens": 1291,
+      "output_tokens": 76
+    }
+  ]
+}
