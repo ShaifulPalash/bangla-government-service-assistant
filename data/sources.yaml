@@ -219,7 +219,7 @@ sources:
       before relying on individual answers.
 
   - id: nid-006
-    title: "NID Fee Schedule - Historical Notice (2015)"
+    title: "NID Fee Schedule"
     url: "https://services.nidw.gov.bd/nid-pub/fees"
     service: nid
     language: mixed
@@ -230,15 +230,16 @@ sources:
     last_updated_date: null
     verified_date: 2026-10-15
     notes: >-
-      Historical fee schedule captured from an image displayed on the
-      official NID fee-calculator page. The original image is stored at
+      NID fee schedule captured from an image displayed on the official NID
+      fee-calculator page. The original image is stored at
       data/raw/nid/nid-006-fees.jpg. OCR output is stored at
       data/processed/nid/nid-006-fees-raw.txt, and the manually reviewed
       transcription is stored at data/processed/nid/nid-006-fees.txt.
-      The notice is dated 1 September 2015. Its fees, VAT treatment,
-      processing categories, and payment instructions have not been
-      verified as current. Do not use these amounts as current fees;
-      direct users to the official NID service for current information.
+      The notice is dated 1 September 2015. The transcription records the
+      listed fees and a 15% VAT rate, with VAT calculations shown separately
+      from the base fees. Confirm the current fee amounts, VAT treatment,
+      processing categories, and payment instructions against the official
+      NID service before relying on them for an application.
 
   - id: nid-007
     title: "জাতীয় পরিচয় নিবন্ধন বিধিমালা, ২০১৪"
