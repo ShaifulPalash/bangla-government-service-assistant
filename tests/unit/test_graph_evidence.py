@@ -9,9 +9,7 @@ from app.graph.evidence import MIN_EVIDENCE_SCORE, best_score, has_enough_eviden
 
 RESULTS = PROJECT_ROOT / "eval" / "results" / "retrieval-dev.json"
 
-# q028 asks for the "current" NID correction fee. Its passages are strong (they are the
-# 2015 notice), so no score can refuse it. The historical-source guard (step 8.2e) does.
-SCORE_BLIND_SPOTS = {"q028"}
+SCORE_BLIND_SPOTS: set[str] = set()
 
 
 def passages(*scores: float) -> list[dict]:
