@@ -68,3 +68,6 @@ serve:
 
 eval-llm:
 	PYTHONPATH=src python -m app.evaluation.llm_bakeoff
+
+eval-e2e:
+	PYTHONPATH=src python -m app.evaluation.end_to_end
