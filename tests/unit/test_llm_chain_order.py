@@ -17,3 +17,8 @@ def test_groq_is_first_and_gemini_is_the_backup():
 def test_only_the_configured_keys_are_used():
     assert providers(gemini_api_key="m") == ["gemini"]
     assert providers(groq_api_key="g") == ["groq"]
+
+
+def test_groq_uses_low_reasoning_effort():
+    chain = build_chain(Settings(_env_file=None, groq_api_key="g", gemini_api_key="m"))
+    assert chain.clients[0].reasoning_effort == "low"

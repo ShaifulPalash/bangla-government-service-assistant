@@ -246,7 +246,13 @@ def build_chain(settings: Settings) -> FallbackChain:
     """Groq first (fastest, no invented numbers in our bake-off), Gemini as the backup."""
     clients: list = []
     if settings.groq_api_key:
-        clients.append(GroqClient(settings.groq_api_key.get_secret_value(), settings.groq_model))
+        clients.append(
+            GroqClient(
+                settings.groq_api_key.get_secret_value(),
+                settings.groq_model,
+                reasoning_effort="low",  # leaves more of the token budget for the answer
+            )
+        )
     if settings.gemini_api_key:
         clients.append(
             GeminiClient(settings.gemini_api_key.get_secret_value(), settings.gemini_model)
