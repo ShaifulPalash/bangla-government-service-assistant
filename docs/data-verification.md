@@ -17,6 +17,14 @@ Purpose: Track file completeness, OCR consistency, visual verification, and curr
 - [ ] Check current official guidance before presenting requirements as current.
 - Note: Do not use the noisy OCR drafts as authoritative text. The manually reviewed transcription is the preferred text source. This form refers to the 2014 rules; visual review does not establish current validity.
 
+## NID-006 — NID Fee Schedule (official fee page)
+- [x] Fee schedule captured by hand from an image on the official NID fee page. The site's robots rules block automated access, so the page was not scraped.
+- [x] OCR output compared with the original image; a manual transcription was created and reviewed.
+- [x] Notice dated 1 September 2015. On 15 October 2026 the official page still listed this schedule as the fee list.
+- [x] Base fees and the 15% VAT are recorded separately; the totals are arithmetic from those two figures.
+- [ ] Compare the totals with the amount the portal shows when a real application form is filled in.
+- Note: this is the source for current NID fee answers. Older fee tables in nid-008 and nid-009 are legal texts from 2014–2015; an answer about today's fee must come from nid-006 and must show its date.
+
 ## NID-007 — National Identity Registration Rules, 2014
 - [x] PDF present; 23 page-level text files accounted for.
 - [x] Combined OCR rebuilt from page-level text.
