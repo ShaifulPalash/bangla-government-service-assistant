@@ -157,3 +157,17 @@ def test_personal_numbers_never_reach_search_or_model():
     assert "1234567890" not in retriever.calls[0]["question"]
     assert "1234567890" not in chain.prompts[0]
     assert len(result["notices"]) == 1
+
+
+def test_an_answer_with_a_number_not_in_the_sources_is_refused():
+    chain = FakeChain(reply(answer="The fee is TK 4,500 [1]."))
+    result = run("How much is the e-passport fee?", FakeRetriever([passage(0.82)]), chain)
+    assert (result["decision"], result["reason"]) == ("refuse", "unsupported_numbers")
+
+
+def test_two_passages_of_one_document_become_one_citation():
+    chain = FakeChain(reply(sources=(1, 2)))
+    retriever = FakeRetriever([passage(0.82), passage(0.80)])
+    result = run("How much is the e-passport fee?", retriever, chain)
+    assert len(result["citations"]) == 1
+    assert result["citations"][0]["numbers"] == [1, 2]

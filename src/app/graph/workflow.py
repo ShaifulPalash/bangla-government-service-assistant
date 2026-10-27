@@ -23,6 +23,7 @@ from typing import Annotated, TypedDict
 from langgraph.graph import END, START, StateGraph
 
 from app.graph.evidence import best_score, has_enough_evidence
+from app.graph.numbers import unsupported_numbers
 from app.graph.routing import classify_service, is_out_of_scope_topic
 from app.graph.safety import message_for, safety_check
 from app.indexing.embeddings import EmbeddingError
@@ -218,28 +219,41 @@ def build_graph(retriever, chain, top_k: int = TOP_K):
         return {"path": ["unavailable"], **finish(state, "unavailable", reason, message)}
 
     def respond(state: State) -> dict:
-        """Show the answer, but only with citations that point at real passages."""
+        """Show the answer only if its citations are real and its numbers come from the sources."""
         passages, llm = state["passages"], state["llm"]
-        citations = []
+        by_document: dict[tuple, dict] = {}
         for number in dict.fromkeys(llm["sources"]):  # unique numbers, in order
-            if 1 <= number <= len(passages):
-                p = passages[number - 1]
-                citations.append(
-                    {
-                        "number": number,
-                        "title": p["title"],
-                        "url": p["url"],
-                        "doc_id": p["doc_id"],
-                        "page": p["page"],
-                        "date": p["last_updated_date"] or p["verified_date"],
-                        "date_kind": "updated" if p["last_updated_date"] else "checked",
-                    }
-                )
+            if not 1 <= number <= len(passages):
+                continue
+            p = passages[number - 1]
+            key = (p["doc_id"], p["page"])  # passages of one document and page share a card
+            if key in by_document:
+                by_document[key]["numbers"].append(number)
+                continue
+            by_document[key] = {
+                "number": number,
+                "numbers": [number],
+                "title": p["title"],
+                "url": p["url"],
+                "doc_id": p["doc_id"],
+                "page": p["page"],
+                "date": p["last_updated_date"] or p["verified_date"],
+                "date_kind": "updated" if p["last_updated_date"] else "checked",
+            }
+        citations = list(by_document.values())
         if not citations:  # an answer nobody can check is not shown
             message = say("no_evidence", state["language"])
             return {
                 "path": ["respond"],
                 **finish(state, "refuse", "no_valid_citation", message),
+            }
+        unsupported = unsupported_numbers(llm["answer"], passages)
+        if unsupported:
+            logger.warning("answer not shown, numbers not in the sources: %s", unsupported)
+            message = say("no_evidence", state["language"])
+            return {
+                "path": ["respond"],
+                **finish(state, "refuse", "unsupported_numbers", message),
             }
         return {
             "path": ["respond"],
