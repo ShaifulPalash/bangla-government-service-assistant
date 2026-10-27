@@ -147,7 +147,9 @@ def build_graph(retriever, chain, top_k: int = TOP_K):
         language_name = answer_language(state["language"])
         prompt = build_user_prompt(state["question"], state["passages"], language_name)
         try:
-            reply = chain.generate(SYSTEM_PROMPT, prompt)
+            reply = chain.generate(
+                SYSTEM_PROMPT, prompt, accept=lambda text: parse_answer(text).can_answer is not None
+            )
         except LLMError as error:
             logger.error("all language models failed: %s", error)
             return {"llm_failed": True, "path": ["answer"]}

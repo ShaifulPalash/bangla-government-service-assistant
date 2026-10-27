@@ -75,9 +75,11 @@ def parse_answer(raw: str) -> ParsedAnswer:
     start, end = text.find("{"), text.rfind("}")
     if start != -1 and end > start:
         try:
-            data = json.loads(text[start : end + 1])
+            data = json.loads(text[start : end + 1], strict=False)  # allows raw line breaks
             answer = str(data.get("answer", "")).strip()
             can_answer = data.get("can_answer")
+            if isinstance(can_answer, str) and can_answer.strip().lower() in ("true", "false"):
+                can_answer = can_answer.strip().lower() == "true"
             numbers = [n for n in data.get("sources", []) if str(n).strip().isdigit()]
             if isinstance(can_answer, bool) and answer:
                 return ParsedAnswer(can_answer, answer, [int(n) for n in numbers])

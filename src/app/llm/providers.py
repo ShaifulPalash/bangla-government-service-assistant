@@ -209,14 +209,36 @@ class FallbackChain:
     def __init__(self, clients: list) -> None:
         self.clients = clients
 
-    def generate(self, system: str, user: str, max_output_tokens: int = 800) -> LLMResult:
+    def generate(
+        self,
+        system: str,
+        user: str,
+        max_output_tokens: int = 800,
+        accept: Callable[[str], bool] | None = None,
+    ) -> LLMResult:
+        """Return the first usable answer.
+
+        `accept` can reject a reply (for example one that cannot be read). The next
+        provider then gets a turn, exactly as when a provider is down.
+        """
         problems = []
         for client in self.clients:
             try:
-                return client.generate(system, user, max_output_tokens=max_output_tokens)
+                result = client.generate(system, user, max_output_tokens=max_output_tokens)
             except LLMError as error:
                 problems.append(f"{client.provider}/{client.model}: {error}")
                 logger.warning("llm failed, trying the next one: %s", problems[-1])
+                continue
+            if accept is not None and not accept(result.text):
+                problems.append(f"{client.provider}/{client.model}: unreadable reply")
+                logger.warning(
+                    "llm reply rejected (%d characters, starts: %r, ends: %r), trying the next one",
+                    len(result.text),
+                    result.text[:120],
+                    result.text[-120:],
+                )
+                continue
+            return result
         raise LLMError("all providers failed: " + " | ".join(problems))
 
 

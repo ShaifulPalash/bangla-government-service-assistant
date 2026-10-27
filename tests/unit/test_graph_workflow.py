@@ -42,10 +42,12 @@ class FakeChain:
         self.error = error
         self.prompts = []
 
-    def generate(self, system, user, max_output_tokens=800):
+    def generate(self, system, user, max_output_tokens=800, accept=None):
         self.prompts.append(user)
         if self.error:
             raise self.error
+        if accept is not None and not accept(self.reply):
+            raise LLMError("all providers failed: unreadable reply")
         return LLMResult(self.reply, "fake", "fake-model", 10, 5, 1)
 
 
@@ -127,7 +129,7 @@ def test_model_that_cannot_answer_is_a_refusal_with_its_own_text():
 def test_unreadable_model_reply_is_unavailable():
     chain = FakeChain("this is not json")
     result = run("How much is the e-passport fee?", FakeRetriever([passage(0.82)]), chain)
-    assert (result["decision"], result["reason"]) == ("unavailable", "unreadable_reply")
+    assert (result["decision"], result["reason"]) == ("unavailable", "llm_unavailable")
 
 
 def test_all_models_failing_is_unavailable():
