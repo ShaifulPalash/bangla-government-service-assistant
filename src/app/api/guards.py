@@ -7,6 +7,7 @@ count the last minute.
 
 from __future__ import annotations
 
+import ipaddress
 import math
 import re
 import time
@@ -95,3 +96,29 @@ class RateLimiter:
         while len(self._hits) > self.max_visitors:  # keep memory bounded
             self._hits.popitem(last=False)
         return True, 0
+
+
+def visitor_id(
+    forwarded_for: str | None,
+    client_host: str | None,
+    trust_proxy: bool = False,
+    proxy_hops: int = 1,
+) -> str:
+    """Who is this visitor, for rate limiting?
+
+    Behind a proxy (Render's), `client_host` is the proxy itself, so every user would look
+    like one visitor. A trusted proxy adds the real address at the END of the
+    X-Forwarded-For header. Anything before that was written by the visitor and can be
+    forged, so we only read the entries our own proxies added.
+    """
+    fallback = client_host or "unknown"
+    if not trust_proxy or not forwarded_for:
+        return fallback
+    entries = [part.strip() for part in forwarded_for.split(",") if part.strip()]
+    hops = max(proxy_hops, 1)
+    if len(entries) < hops:
+        return fallback
+    try:
+        return str(ipaddress.ip_address(entries[-hops]))  # must really be an IP address
+    except ValueError:
+        return fallback

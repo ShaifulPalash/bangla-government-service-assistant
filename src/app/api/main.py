@@ -13,7 +13,7 @@ from fastapi import FastAPI, Query, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
-from app.api.guards import AnswerCache, RateLimiter
+from app.api.guards import AnswerCache, RateLimiter, visitor_id
 from app.api.storage import SQLiteStorage
 from app.config import get_settings
 from app.graph.safety import message_for, safety_check
@@ -252,7 +252,13 @@ def create_app(
         """Answer a question, with caching, rate limiting, and metadata-only logging."""
         started = time.perf_counter()
 
-        visitor = request.client.host if request.client else "unknown"
+        cfg = get_settings()
+        visitor = visitor_id(
+            request.headers.get("x-forwarded-for"),
+            request.client.host if request.client else None,
+            cfg.trust_proxy_headers,
+            cfg.proxy_hops,
+        )
         allowed, retry_seconds = app.state.rate_limiter.allow(visitor)
         if not allowed:
             return JSONResponse(

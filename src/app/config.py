@@ -29,6 +29,8 @@ class Settings(BaseSettings):
     gemini_model: str = "gemini-3.5-flash-lite"  # backup, chosen by the bake-off
     groq_model: str = "openai/gpt-oss-120b"  # primary, chosen by the bake-off
     database_path: str = "data/app.sqlite3"
+    trust_proxy_headers: bool = False  # set to true only behind a proxy, such as Render's
+    proxy_hops: int = 1  # how many trailing X-Forwarded-For entries trusted proxies added
 
 
 # Cached settings function
