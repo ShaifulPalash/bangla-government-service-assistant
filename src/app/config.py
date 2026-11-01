@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     groq_api_key: SecretStr | None = None
     gemini_model: str = "gemini-3.5-flash-lite"  # backup, chosen by the bake-off
     groq_model: str = "openai/gpt-oss-120b"  # primary, chosen by the bake-off
+    database_path: str = "data/app.sqlite3"
 
 
 # Cached settings function
