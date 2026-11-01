@@ -28,6 +28,7 @@ from app.retrieval.hybrid import Retriever, build_retriever
 logger = logging.getLogger(__name__)
 
 SEARCH_MODE = "meaning"
+GRAPH_LIMIT_PER_MINUTE = 30  # uncached questions per minute, all visitors together
 EXCERPT_CHARS = 300
 
 FeedbackCategory = Literal["accuracy", "incomplete", "outdated", "unclear", "other"]
@@ -142,6 +143,7 @@ def create_app(
         app.state.storage_error = None
         app.state.answer_cache = AnswerCache()
         app.state.rate_limiter = RateLimiter()
+        app.state.graph_limiter = RateLimiter(limit=GRAPH_LIMIT_PER_MINUTE)
 
         if storage_factory is not None:
             try:
@@ -285,6 +287,14 @@ def create_app(
         cached = result is not None
 
         if result is None:
+            # Only questions that really run the workflow count here: cached ones cost nothing.
+            open_slot, wait = app.state.graph_limiter.allow("all-visitors")
+            if not open_slot:
+                return JSONResponse(
+                    status_code=429,
+                    headers={"Retry-After": str(wait)},
+                    content={"error": "the assistant is busy; please try again shortly"},
+                )
             try:
                 result = ask(app.state.graph, body.question)
             except Exception as error:
