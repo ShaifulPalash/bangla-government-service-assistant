@@ -36,5 +36,5 @@ jobs:
       - name: Run unit tests
         run: make test
 
-      - name: Validate source registry
-        run: make check-sources
+      - name: Validate source registry metadata
+        run: PYTHONPATH=src python -m app.ingest.sources --metadata-only

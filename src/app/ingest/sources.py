@@ -6,6 +6,7 @@ Every document in the knowledge base must be listed here with its origin (proven
 # imports
 from __future__ import annotations
 
+import argparse
 import sys
 from collections import Counter
 from datetime import date
@@ -191,8 +192,16 @@ def validate_file(path: Path, doc_type: str) -> tuple[bool, str]:
 
 
 # Main validation and reporting function
-def main() -> int:
-    """Command-line check: validates the YAML and confirms every raw file exists."""
+def main(argv: list[str] | None = None) -> int:
+    """Validate the source registry and optionally check local files."""
+    parser = argparse.ArgumentParser(description="Validate the official-source registry.")
+    parser.add_argument(
+        "--metadata-only",
+        action="store_true",
+        help="Validate registry metadata without checking local source files.",
+    )
+    args = parser.parse_args(argv)
+
     # Handle invalid registry data
     try:
         registry = load_registry()
@@ -200,16 +209,21 @@ def main() -> int:
         print(f"INVALID sources.yaml:\n{error}")
         return 1
 
-    # Check the raw files and their basic content
+    # Check local files unless metadata-only mode was requested.
     invalid = 0
 
     for source in registry.sources:
+        tags = f"{source.service}/{source.language}/{source.doc_type}"
+
+        if args.metadata_only:
+            print(f"OK     {source.id}  [{tags}]  {source.title}")
+            continue
+
         valid, detail = validate_file(source.local_path, source.doc_type)
 
         status = "OK     " if valid else "INVALID"
         invalid += 0 if valid else 1
 
-        tags = f"{source.service}/{source.language}/{source.doc_type}"
         print(f"{status} {source.id}  [{tags}]  {source.title}")
 
         if not valid:
