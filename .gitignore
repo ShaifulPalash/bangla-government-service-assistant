@@ -26,3 +26,5 @@ data/processed/
 
 # Search index contains document text: private until redistribution is reviewed
 data/index/
+
+.venv-ui/
