@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     database_path: str = "data/app.sqlite3"
     trust_proxy_headers: bool = False  # set to true only behind a proxy, such as Render's
     proxy_hops: int = 1  # how many trailing X-Forwarded-For entries trusted proxies added
+    rate_limit_per_minute: int = 10  # questions per visitor per minute (Render sets a higher one)
 
 
 # Cached settings function
