@@ -142,7 +142,7 @@ def create_app(
         app.state.storage = None
         app.state.storage_error = None
         app.state.answer_cache = AnswerCache()
-        app.state.rate_limiter = RateLimiter()
+        app.state.rate_limiter = RateLimiter(limit=get_settings().rate_limit_per_minute)
         app.state.graph_limiter = RateLimiter(limit=GRAPH_LIMIT_PER_MINUTE)
 
         if storage_factory is not None:
