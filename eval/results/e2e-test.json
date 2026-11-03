@@ -1,0 +1,302 @@
+{
+  "split": "test",
+  "summary": {
+    "questions": 10,
+    "decision_accuracy": 0.9,
+    "refusal_precision": 0.667,
+    "refusal_recall": 1.0,
+    "citation_accuracy": 0.833,
+    "language_accuracy": 1.0,
+    "unavailable": 0,
+    "confusion": {
+      "answer": {
+        "answer": 6,
+        "refuse": 1
+      },
+      "clarify": {
+        "clarify": 1
+      },
+      "refuse": {
+        "refuse": 2
+      }
+    }
+  },
+  "rows": [
+    {
+      "id": "q005",
+      "type": "answerable",
+      "split": "test",
+      "question": "Is the application form for RPO Bangladesh Secretariat and Dhaka Cantonment valid for all passport offices?",
+      "expected": "answer",
+      "decision": "answer",
+      "reason": "ok",
+      "behavior_ok": true,
+      "cited_docs": [
+        "ppt-003"
+      ],
+      "expected_docs": [
+        "ppt-003"
+      ],
+      "citation_ok": true,
+      "language_ok": true,
+      "top_score": 0.8322064280509949,
+      "provider": "groq",
+      "path": [
+        "prepare",
+        "classify",
+        "retrieve",
+        "evidence",
+        "answer",
+        "respond"
+      ],
+      "message": "The application form is only valid for applicants applying for an e‑Passport at the RPO Bangladesh Secretariat and Dhaka Cantonment and cannot be used for enrolments at other passport offices."
+    },
+    {
+      "id": "q007",
+      "type": "answerable",
+      "split": "test",
+      "question": "e-passport er jonno kon kon kagoj lagbe?",
+      "expected": "answer",
+      "decision": "answer",
+      "reason": "ok",
+      "behavior_ok": true,
+      "cited_docs": [
+        "ppt-004",
+        "ppt-005"
+      ],
+      "expected_docs": [
+        "ppt-004",
+        "ppt-005"
+      ],
+      "citation_ok": true,
+      "language_ok": true,
+      "top_score": 0.8201106786727905,
+      "provider": "groq",
+      "path": [
+        "prepare",
+        "classify",
+        "retrieve",
+        "evidence",
+        "answer",
+        "respond"
+      ],
+      "message": "e‑Passport এর জন্য প্রয়োজনীয় কাগজপত্র:\n1. অনলাইনে পূরণ করা (PDF) আবেদন ফরমের প্রিন্টেড কপি।\n2. পেমেন্ট স্লিপ/ফি জমা রশিদ (অফলাইন পেমেন্ট হলে)।\n3. অনলাইন জন্ম নিবন্ধন সনদের ইংরেজি মূল কপি ও ফটোকপি।\n4. জাতীয় পরিচয় পত্রের মূল ও ফটোকপি (২০ বছরের ঊর্ধ্বের জন্য)।\n5. বর্তমান ঠিকানার প্রমাণ (যেমন গ্যাস, বিদ্যুৎ, টেলিফোন বা পানির বিল)।\n6. ৩R সাইজের ধূসর ব্যাকগ্রাউন্ডের ফটো (৬ বছরের নিচে শিশুর জন্য)।"
+    },
+    {
+      "id": "q009",
+      "type": "answerable",
+      "split": "test",
+      "question": "৬ বছরের কম বয়সী শিশুর পাসপোর্ট করতে কী লাগে?",
+      "expected": "answer",
+      "decision": "answer",
+      "reason": "ok",
+      "behavior_ok": true,
+      "cited_docs": [
+        "ppt-001",
+        "ppt-006"
+      ],
+      "expected_docs": [
+        "ppt-006",
+        "ppt-005"
+      ],
+      "citation_ok": true,
+      "language_ok": true,
+      "top_score": 0.7978562712669373,
+      "provider": "groq",
+      "path": [
+        "prepare",
+        "classify",
+        "retrieve",
+        "evidence",
+        "answer",
+        "respond"
+      ],
+      "message": "৬ বছরের নিন্মের শিশুর পাসপোর্টের জন্য প্রয়োজন: ১ সেট আবেদন ফরম, ইস্যুকারী কর্তৃপক্ষের ওয়েবসাইটে প্রদর্শিত মূল অনাপত্তি সনদ (NOC) (যদি প্রযোজ্য), ডিজিটাল জন্ম নিবন্ধনের (BRC) ফটোকপি, এবং পিতা/মাতার জাতীয় পরিচয়পত্র (NID)। এছাড়া, পূর্ববর্তী মূল পাসপোর্ট (যদি থাকে) প্রদর্শন বাধ্যতামূলক। (সূত্র: [1], [3])"
+    },
+    {
+      "id": "q015",
+      "type": "answerable",
+      "split": "test",
+      "question": "What happens if a person is registered twice in the voter list?",
+      "expected": "answer",
+      "decision": "refuse",
+      "reason": "no_evidence",
+      "behavior_ok": false,
+      "cited_docs": [],
+      "expected_docs": [
+        "nid-005"
+      ],
+      "citation_ok": null,
+      "language_ok": true,
+      "top_score": 0.7248456478118896,
+      "provider": null,
+      "path": [
+        "prepare",
+        "classify",
+        "retrieve",
+        "evidence",
+        "refuse_no_evidence"
+      ],
+      "message": "I could not find this in the official documents I have. Please check the official websites (epassport.gov.bd for passports, nidw.gov.bd for NID) or contact the relevant office."
+    },
+    {
+      "id": "q016",
+      "type": "answerable",
+      "split": "test",
+      "question": "NID card hariye gele ki korbo?",
+      "expected": "answer",
+      "decision": "answer",
+      "reason": "ok",
+      "behavior_ok": true,
+      "cited_docs": [
+        "nid-004"
+      ],
+      "expected_docs": [
+        "nid-004",
+        "nid-001"
+      ],
+      "citation_ok": true,
+      "language_ok": true,
+      "top_score": 0.822796106338501,
+      "provider": "groq",
+      "path": [
+        "prepare",
+        "classify",
+        "retrieve",
+        "evidence",
+        "answer",
+        "respond"
+      ],
+      "message": "১. অনলাইনে পুনরায় মুদ্রণের (রিইস্যু) জন্য আবেদন করুন।\n২. আবেদন অনুমোদিত হলে মোবাইল বা ইমেইলে নোটিফিকেশন পাবেন।\n৩. নোটিফিকেশন পাওয়ার পর অনলাইন থেকে নতুন NID কার্ডের কপি ডাউনলোড করুন।\n৪. ফি দিতে হবে; ফি জানার লিঙ্ক https://services.nidw.gov.bd/nid-pub/fees।"
+    },
+    {
+      "id": "q017",
+      "type": "answerable",
+      "split": "test",
+      "question": "Can I correct my NID information online?",
+      "expected": "answer",
+      "decision": "answer",
+      "reason": "ok",
+      "behavior_ok": true,
+      "cited_docs": [
+        "nid-002",
+        "nid-003"
+      ],
+      "expected_docs": [
+        "nid-003",
+        "nid-004"
+      ],
+      "citation_ok": true,
+      "language_ok": true,
+      "top_score": 0.809770941734314,
+      "provider": "groq",
+      "path": [
+        "prepare",
+        "classify",
+        "retrieve",
+        "evidence",
+        "answer",
+        "respond"
+      ],
+      "message": "Yes, you can correct your NID information online by selecting the NID registration wing/Upazila/Thana/District office on the website and submitting an application with the required supporting documents. All corrections are recorded in the central database. (source: 2026-10-15) [1][2]"
+    },
+    {
+      "id": "q021",
+      "type": "out_of_scope",
+      "split": "test",
+      "question": "How do I file my income tax return online?",
+      "expected": "refuse",
+      "decision": "refuse",
+      "reason": "out_of_scope",
+      "behavior_ok": true,
+      "cited_docs": [],
+      "expected_docs": [],
+      "citation_ok": null,
+      "language_ok": true,
+      "top_score": null,
+      "provider": null,
+      "path": [
+        "prepare",
+        "classify",
+        "refuse_scope"
+      ],
+      "message": "I can only help with Bangladesh passport and NID services. For other services, please use the official website of the agency that provides them."
+    },
+    {
+      "id": "q023",
+      "type": "out_of_scope",
+      "split": "test",
+      "question": "amar gas er bill koto, kivabe dibo?",
+      "expected": "refuse",
+      "decision": "refuse",
+      "reason": "out_of_scope",
+      "behavior_ok": true,
+      "cited_docs": [],
+      "expected_docs": [],
+      "citation_ok": null,
+      "language_ok": true,
+      "top_score": null,
+      "provider": null,
+      "path": [
+        "prepare",
+        "classify",
+        "refuse_scope"
+      ],
+      "message": "আমি শুধু বাংলাদেশের পাসপোর্ট ও এনআইডি সেবা নিয়ে সাহায্য করতে পারি। অন্য সেবার জন্য সংশ্লিষ্ট সংস্থার অফিসিয়াল ওয়েবসাইট দেখুন।"
+    },
+    {
+      "id": "q026",
+      "type": "ambiguous",
+      "split": "test",
+      "question": "form ta kothay pabo?",
+      "expected": "clarify",
+      "decision": "clarify",
+      "reason": "service_unclear",
+      "behavior_ok": true,
+      "cited_docs": [],
+      "expected_docs": [],
+      "citation_ok": null,
+      "language_ok": true,
+      "top_score": 0.736843466758728,
+      "provider": null,
+      "path": [
+        "prepare",
+        "classify",
+        "retrieve",
+        "evidence",
+        "clarify"
+      ],
+      "message": "আপনার প্রশ্নটি কোন সেবা সম্পর্কে: পাসপোর্ট নাকি এনআইডি? অনুগ্রহ করে একটু বিস্তারিত লিখুন।"
+    },
+    {
+      "id": "q030",
+      "type": "answerable",
+      "split": "test",
+      "question": "২০১৫ সালে জাতীয় পরিচয়পত্র সংশোধনের ফি কত ছিল?",
+      "expected": "answer",
+      "decision": "answer",
+      "reason": "ok",
+      "behavior_ok": true,
+      "cited_docs": [
+        "nid-010"
+      ],
+      "expected_docs": [
+        "nid-006",
+        "nid-008"
+      ],
+      "citation_ok": false,
+      "language_ok": true,
+      "top_score": 0.8050814867019653,
+      "provider": "groq",
+      "path": [
+        "prepare",
+        "classify",
+        "retrieve",
+        "evidence",
+        "answer",
+        "respond"
+      ],
+      "message": "২০১৫ সালে জাতীয় পরিচয়পত্র সংশোধনের ফি ছিল টাকা ৮.০০।"
+    }
+  ]
+}
