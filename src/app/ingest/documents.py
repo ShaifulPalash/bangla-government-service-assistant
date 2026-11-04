@@ -11,7 +11,13 @@ import sys
 from pathlib import Path
 
 from app.ingest.sources import load_registry
-from app.ingest.text_cleaning import redact_phones, scan_pii, split_pages, strip_header
+from app.ingest.text_cleaning import (
+    redact_phones,
+    scan_pii,
+    split_pages,
+    strip_gazette_prices,
+    strip_header,
+)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 OUTPUT_FILE = PROJECT_ROOT / "data" / "processed" / "documents.jsonl"
@@ -71,6 +77,9 @@ def relative(path: Path) -> str:
 def build_record(meta: dict, path: Path, extraction: str) -> dict:
     """Read one final text file and return its cleaned dataset record."""
     cleaned = strip_header(path.read_text(encoding="utf-8"))
+    prices_removed = 0
+    if extraction == "ocr_reviewed":
+        cleaned, prices_removed = strip_gazette_prices(cleaned)
     phones_removed = 0
     if meta.get("id") in REDACT_PHONES_FOR:
         cleaned, phones_removed = redact_phones(cleaned)
@@ -85,6 +94,7 @@ def build_record(meta: dict, path: Path, extraction: str) -> dict:
             "char_count": len(full_text),
             "replacement_chars": full_text.count("\ufffd"),
             "phones_removed": phones_removed,
+            "gazette_prices_removed": prices_removed,
             "pii_flags": scan_pii(full_text),
         }
     )
