@@ -34,6 +34,7 @@ Purpose: Track file completeness, OCR consistency, visual verification, and curr
 - [ ] Compare remaining pages against the original PDF.
 - [ ] Check legal references and eligibility requirements for OCR errors.
 - Note: OCR consistency does not establish transcription accuracy. This is a historical legal document.
+- Note: the Gazette page-price footer ("মূল্যঃ টাকা …") was removed by the cleaning step after the final evaluation. It was page furniture and was once mistaken for a fee.
 
 ## NID-008 — 2015 Amendment
 - [x] PDF present; 2 page-level text files accounted for.
@@ -65,6 +66,7 @@ Purpose: Track file completeness, OCR consistency, visual verification, and curr
 - [ ] Independently verify remaining wording and the complete fee table against the original PDF.
 - [ ] Verify effective-date wording and subsequent amendments.
 - Note: OCR-transcribed fees are not confirmed current fees.
+- Note: the Gazette page-price footer ("মূল্যঃ টাকা …") was removed by the cleaning step after the final evaluation. It was page furniture and was once mistaken for a fee.
 
 ## NID-011 — Form 2
 - [x] PDF present; 2 page-level text files accounted for.

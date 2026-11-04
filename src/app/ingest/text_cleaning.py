@@ -95,6 +95,18 @@ def redact_phones(text: str) -> tuple[str, int]:
     return "".join(pieces), count
 
 
+# The Bangladesh Gazette prints the price of each page, for example "মূল্যঃ টাকা ২৪.০০".
+# It is page furniture, not content, and a model can mistake it for a fee. OCR sometimes
+# writes its digits as Latin digits ("8.00"). The pattern stays on one line and needs the
+# word "টাকা" and a number right after "মূল্য", so ordinary fee text is not touched.
+_GAZETTE_PRICE = re.compile(r"[ \t]*মূল্য[ \t]*[ঃ:]?[ \t]*টাকা[ \t]*[0-9০-৯]+(?:\.[0-9০-৯]+)?")
+
+
+def strip_gazette_prices(text: str) -> tuple[str, int]:
+    """Remove Gazette page-price notes. Returns (clean text, how many were removed)."""
+    return _GAZETTE_PRICE.subn("", text)
+
+
 def scan_pii(text: str) -> dict[str, int]:
     """Count possible personal data. Only counts are returned, never the matched text."""
     folded = fold_digits(text)
