@@ -151,6 +151,101 @@ EXAMPLES = {
 }
 
 
+TEXT["en"].update(
+    {
+        "notice_official": (
+            "Independent informational project, not an official government service. "
+            "It cannot submit applications or take payments. "
+            "Confirm important details on the official website."
+        ),
+        "notice_privacy": (
+            "Do not type your NID, passport or phone number. "
+            "Questions are processed by third-party AI services."
+        ),
+        "repo": "Source code",
+        "api_docs": "API documentation",
+    }
+)
+TEXT["bn"].update(
+    {
+        "notice_official": (
+            "এটি একটি স্বাধীন তথ্যভিত্তিক প্রকল্প, কোনো সরকারি সেবা নয়। "
+            "এখান থেকে আবেদন বা পেমেন্ট করা যায় না। "
+            "গুরুত্বপূর্ণ তথ্য অফিসিয়াল ওয়েবসাইটে যাচাই করুন।"
+        ),
+        "notice_privacy": (
+            "এনআইডি, পাসপোর্ট বা ফোন নম্বর লিখবেন না। প্রশ্ন তৃতীয় পক্ষের এআই সেবায় প্রক্রিয়া হয়।"
+        ),
+        "repo": "সোর্স কোড",
+        "api_docs": "এপিআই ডকুমেন্টেশন",
+    }
+)
+
+REPO_URL = "https://github.com/ShaifulPalash/bangla-government-service-assistant"
+
+STYLE = """
+<style>
+.block-container, [data-testid="stMainBlockContainer"] {
+    max-width: 920px;
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+}
+header[data-testid="stHeader"] { background: transparent; }
+.app-banner {
+    background: linear-gradient(135deg, #064e3b 0%, #0b6e4f 60%, #12805c 100%);
+    border-bottom: 4px solid #f42a41;
+    border-radius: 14px;
+    margin-bottom: 0.8rem;
+    padding: 1.1rem 1.4rem;
+    text-align: center !important;
+}
+div.app-banner h1 {
+    color: #ffffff !important;
+    font-size: 1.55rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+}
+div.app-banner p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
+    margin: 0.35rem auto 0 auto !important;
+    max-width: 640px;
+    text-align: center !important;
+}
+.app-banner.compact { padding: 0.55rem 1rem; border-bottom-width: 3px; }
+div.app-banner.compact h1 { font-size: 1.1rem !important; }
+div.app-banner.compact p { display: none !important; }
+.notice {
+    background: #f4f7f6;
+    border-left: 3px solid #0b6e4f;
+    border-radius: 6px;
+    color: #3d4a46;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    margin-bottom: 0.45rem;
+    padding: 0.45rem 0.8rem;
+}
+.notice.privacy { background: #fffaf0; border-left-color: #d97706; }
+.section-label {
+    color: #3d4a46;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin: 0.8rem 0 0.3rem 0;
+}
+.st-key-examples button {
+    border-radius: 10px;
+    font-size: 0.86rem;
+    text-align: left;
+    width: 100%;
+}
+</style>
+"""
+
+
 def t(key: str, lang: str | None = None, **values) -> str:
     """Interface text in the sidebar language, or in `lang` when given."""
     text = TEXT[lang or st.session_state.lang][key]
@@ -283,12 +378,8 @@ def ask_and_store(client: ApiClient, question: str) -> None:
     st.rerun()  # redraw the whole conversation, including the feedback buttons
 
 
-def main() -> None:
-    st.set_page_config(page_title="Bangla Government-Service Assistant", page_icon="🏛️")
-    st.session_state.setdefault("messages", [])
-    st.session_state.setdefault("feedback", {})
-    st.session_state.setdefault("ready", False)
-
+def show_sidebar() -> bool:
+    """Interface language, technical-details switch, and links. Returns the debug flag."""
     choice = st.sidebar.radio(LANGUAGE_LABEL, ["English", BANGLA], key="ui_language")
     st.session_state.lang = "bn" if choice == BANGLA else "en"
     debug = st.sidebar.checkbox(t("debug"))
@@ -297,13 +388,53 @@ def main() -> None:
         st.session_state.feedback = {}
         st.rerun()
     st.sidebar.caption(t("about"))
+    st.sidebar.markdown(f"[{t('repo')}]({REPO_URL})  \n[{t('api_docs')}]({API_URL}/docs)")
+    return debug
 
-    st.title(t("title"))
-    st.caption(t("subtitle"))
 
-    if not st.session_state.messages:
-        st.info(t("disclaimer"))
-        st.warning(t("privacy"))
+def show_header(compact: bool) -> None:
+    """The banner. It shrinks to one line once the conversation has started."""
+    css_class = "app-banner compact" if compact else "app-banner"
+    st.markdown(
+        f'<div class="{css_class}"><h1>🏛️ {t("title")}</h1><p>{t("subtitle")}</p></div>',
+        unsafe_allow_html=True,
+    )
+
+
+def show_notices() -> None:
+    """The disclaimer and the privacy warning, small and clearly secondary."""
+    st.markdown(
+        f'<div class="notice">ℹ️ {t("notice_official")}</div>'
+        f'<div class="notice privacy">🔒 {t("notice_privacy")}</div>',
+        unsafe_allow_html=True,
+    )
+
+
+def show_examples() -> None:
+    """Example questions in a two-column grid, so they take little height."""
+    st.markdown(f'<div class="section-label">{t("examples")}</div>', unsafe_allow_html=True)
+    with st.container(key="examples"):
+        columns = st.columns(2)
+        for index, example in enumerate(EXAMPLES[st.session_state.lang]):
+            if columns[index % 2].button(example, key=f"example-{index}"):
+                st.session_state.queued = example
+                st.rerun()
+
+
+def main() -> None:
+    st.set_page_config(
+        page_title="Bangla Government-Service Assistant",
+        page_icon="🏛️",
+        layout="wide",
+    )
+    st.session_state.setdefault("messages", [])
+    st.session_state.setdefault("feedback", {})
+    st.session_state.setdefault("ready", False)
+
+    debug = show_sidebar()
+    st.markdown(STYLE, unsafe_allow_html=True)
+    show_header(compact=bool(st.session_state.messages))
+    show_notices()
 
     client = get_client(API_URL)
     if not ensure_server(client):
@@ -319,11 +450,7 @@ def main() -> None:
                 show_answer(message["answer"], client, debug)
 
     if not st.session_state.messages:
-        st.markdown(f"**{t('examples')}**")
-        for index, example in enumerate(EXAMPLES[st.session_state.lang]):
-            if st.button(example, key=f"example-{index}"):
-                st.session_state.queued = example
-                st.rerun()
+        show_examples()
 
     question = st.chat_input(t("placeholder"), max_chars=300) or st.session_state.pop(
         "queued", None
