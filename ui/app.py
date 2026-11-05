@@ -162,8 +162,13 @@ TEXT["en"].update(
             "Do not type your NID, passport or phone number. "
             "Questions are processed by third-party AI services."
         ),
+        "sidebar_privacy": (
+            "🔒 Don't enter your NID, passport or phone number. "
+        ),
+        "placeholder": "Ask a question about NID or passport services...",
         "repo": "Source code",
         "api_docs": "API documentation",
+        "sidebar_disclaimer": "Independent project — not an official government service.",
     }
 )
 TEXT["bn"].update(
@@ -176,8 +181,13 @@ TEXT["bn"].update(
         "notice_privacy": (
             "এনআইডি, পাসপোর্ট বা ফোন নম্বর লিখবেন না। প্রশ্ন তৃতীয় পক্ষের এআই সেবায় প্রক্রিয়া হয়।"
         ),
+        "sidebar_privacy": (
+            "🔒 এনআইডি, পাসপোর্ট বা ফোন নম্বর লিখবেন না।"
+        ),
+        "placeholder": "এনআইডি বা পাসপোর্ট সেবা সম্পর্কে আপনার প্রশ্ন লিখুন...",
         "repo": "সোর্স কোড",
         "api_docs": "এপিআই ডকুমেন্টেশন",
+        "sidebar_disclaimer": "স্বাধীন প্রকল্প — এটি কোনো সরকারি সেবা নয়।",
     }
 )
 
@@ -185,12 +195,20 @@ REPO_URL = "https://github.com/ShaifulPalash/bangla-government-service-assistant
 
 STYLE = """
 <style>
+/* Main content container */
 .block-container, [data-testid="stMainBlockContainer"] {
     max-width: 920px;
     padding-top: 3rem;
     padding-bottom: 5rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
-header[data-testid="stHeader"] { background: transparent; }
+
+header[data-testid="stHeader"] {
+    background: transparent;
+}
+
+/* Main banner */
 .app-banner {
     background: linear-gradient(135deg, #064e3b 0%, #0b6e4f 60%, #12805c 100%);
     border-bottom: 4px solid #f42a41;
@@ -199,6 +217,7 @@ header[data-testid="stHeader"] { background: transparent; }
     padding: 1.1rem 1.4rem;
     text-align: center !important;
 }
+
 div.app-banner h1 {
     color: #ffffff !important;
     font-size: 1.55rem !important;
@@ -208,6 +227,7 @@ div.app-banner h1 {
     padding: 0 !important;
     text-align: center !important;
 }
+
 div.app-banner p {
     color: rgba(255, 255, 255, 0.9) !important;
     font-size: 0.88rem !important;
@@ -216,9 +236,21 @@ div.app-banner p {
     max-width: 640px;
     text-align: center !important;
 }
-.app-banner.compact { padding: 0.55rem 1rem; border-bottom-width: 3px; }
-div.app-banner.compact h1 { font-size: 1.1rem !important; }
-div.app-banner.compact p { display: none !important; }
+
+.app-banner.compact {
+    padding: 0.55rem 1rem;
+    border-bottom-width: 3px;
+}
+
+div.app-banner.compact h1 {
+    font-size: 1.1rem !important;
+}
+
+div.app-banner.compact p {
+    display: none !important;
+}
+
+/* Notices */
 .notice {
     background: #f4f7f6;
     border-left: 3px solid #0b6e4f;
@@ -229,18 +261,59 @@ div.app-banner.compact p { display: none !important; }
     margin-bottom: 0.45rem;
     padding: 0.45rem 0.8rem;
 }
-.notice.privacy { background: #fffaf0; border-left-color: #d97706; }
+
+.notice.privacy {
+    background: #fffaf0;
+    border-left-color: #d97706;
+}
+
+/* Section labels */
 .section-label {
     color: #3d4a46;
     font-size: 0.82rem;
     font-weight: 600;
     margin: 0.8rem 0 0.3rem 0;
 }
+
+/* Example question buttons */
 .st-key-examples button {
     border-radius: 10px;
     font-size: 0.86rem;
     text-align: left;
     width: 100%;
+}
+
+/* Align the bottom chat container with the main content. */
+[data-testid="stBottomBlockContainer"] {
+    width: 100%;
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    box-sizing: border-box;
+}
+
+/* Make the chat input fill its aligned container. */
+[data-testid="stChatInput"] {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* Responsive layout for mobile screens. */
+@media (max-width: 640px) {
+    [data-testid="stBottomBlockContainer"] {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    [data-testid="stChatInput"] {
+        width: 100%;
+        max-width: 100%;
+    }
 }
 </style>
 """
@@ -379,15 +452,20 @@ def ask_and_store(client: ApiClient, question: str) -> None:
 
 
 def show_sidebar() -> bool:
-    """Interface language, technical-details switch, and links. Returns the debug flag."""
+    """Interface language, technical-details switch, and links."""
     choice = st.sidebar.radio(LANGUAGE_LABEL, ["English", BANGLA], key="ui_language")
     st.session_state.lang = "bn" if choice == BANGLA else "en"
     debug = st.sidebar.checkbox(t("debug"))
+
     if st.sidebar.button(t("clear")):
         st.session_state.messages = []
         st.session_state.feedback = {}
         st.rerun()
+
     st.sidebar.caption(t("about"))
+    st.sidebar.caption("ℹ️ " + t("sidebar_disclaimer"))
+    st.sidebar.caption(t("sidebar_privacy"))
+
     st.sidebar.markdown(f"[{t('repo')}]({REPO_URL})  \n[{t('api_docs')}]({API_URL}/docs)")
     return debug
 
@@ -434,7 +512,8 @@ def main() -> None:
     debug = show_sidebar()
     st.markdown(STYLE, unsafe_allow_html=True)
     show_header(compact=bool(st.session_state.messages))
-    show_notices()
+    if not st.session_state.messages:
+        show_notices()
 
     client = get_client(API_URL)
     if not ensure_server(client):
