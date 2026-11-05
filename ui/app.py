@@ -162,9 +162,7 @@ TEXT["en"].update(
             "Do not type your NID, passport or phone number. "
             "Questions are processed by third-party AI services."
         ),
-        "sidebar_privacy": (
-            "🔒 Don't enter your NID, passport or phone number. "
-        ),
+        "sidebar_privacy": ("🔒 Don't enter your NID, passport or phone number. "),
         "placeholder": "Ask a question about NID or passport services...",
         "repo": "Source code",
         "api_docs": "API documentation",
@@ -181,9 +179,7 @@ TEXT["bn"].update(
         "notice_privacy": (
             "এনআইডি, পাসপোর্ট বা ফোন নম্বর লিখবেন না। প্রশ্ন তৃতীয় পক্ষের এআই সেবায় প্রক্রিয়া হয়।"
         ),
-        "sidebar_privacy": (
-            "🔒 এনআইডি, পাসপোর্ট বা ফোন নম্বর লিখবেন না।"
-        ),
+        "sidebar_privacy": ("🔒 এনআইডি, পাসপোর্ট বা ফোন নম্বর লিখবেন না।"),
         "placeholder": "এনআইডি বা পাসপোর্ট সেবা সম্পর্কে আপনার প্রশ্ন লিখুন...",
         "repo": "সোর্স কোড",
         "api_docs": "এপিআই ডকুমেন্টেশন",
