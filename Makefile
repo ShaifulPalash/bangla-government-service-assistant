@@ -1,7 +1,7 @@
 ### Makefile - Project Development Commands
 
 # Declare targets that are not actual files
-.PHONY: install lint format test check-sources fetch-sources build-documents build-chunks embed-chunks build-vector-index build-keyword-index build-index
+.PHONY: install lint format test check-sources fetch-sources build-documents build-chunks embed-chunks build-vector-index build-keyword-index build-index hooks
 
 
 # 1. Install Development Dependencies | Usage: make install
@@ -71,3 +71,6 @@ eval-llm:
 
 eval-e2e:
 	PYTHONPATH=src python -m app.evaluation.end_to_end
+
+hooks:
+	pre-commit install
