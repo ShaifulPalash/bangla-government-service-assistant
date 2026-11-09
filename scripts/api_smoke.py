@@ -43,7 +43,11 @@ def main() -> int:
         response = client.post("/chat", json={"question": question})
         return response, time.perf_counter() - started
 
-    health = client.get("/health")
+    try:
+        health = client.get("/health")
+    except httpx.HTTPError as error:
+        print(f"FAIL  health  {type(error).__name__}: the server did not answer")
+        return 1
     check("health", health.status_code == 200, health.text[:90])
 
     first, seconds = chat(FEE)
