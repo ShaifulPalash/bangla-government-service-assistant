@@ -1,7 +1,7 @@
 ### Makefile - Project Development Commands
 
 # Declare targets that are not actual files
-.PHONY: install lint format test check-sources fetch-sources build-documents build-chunks embed-chunks build-vector-index build-keyword-index build-index hooks
+.PHONY: install lint format test check-sources fetch-sources build-documents build-chunks embed-chunks build-vector-index build-keyword-index build-index hooks up down
 
 
 # 1. Install Development Dependencies | Usage: make install
@@ -74,3 +74,9 @@ eval-e2e:
 
 hooks:
 	pre-commit install
+
+up:
+	docker compose up --build
+
+down:
+	docker compose down

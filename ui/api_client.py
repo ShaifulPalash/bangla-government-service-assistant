@@ -77,7 +77,7 @@ class ApiClient:
         self.client = client or httpx.Client(base_url=base_url, timeout=timeout)
         self.sleep = sleep
 
-    def wake_up(self, attempts: int = 6, pause: float = 10.0) -> bool:
+    def wake_up(self, attempts: int = 10, pause: float = 8.0) -> bool:
         """Ping /health until the server answers. A free host can need about a minute."""
         for attempt in range(attempts):
             try:
