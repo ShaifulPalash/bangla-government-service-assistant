@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-label="Bangla Government-Service Assistant">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#064e3b"/>
+      <stop offset="0.6" stop-color="#0b6e4f"/>
+      <stop offset="1" stop-color="#12805c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="260" fill="url(#bg)"/>
+  <rect y="246" width="1200" height="14" fill="#f42a41"/>
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" text-anchor="middle" fill="#ffffff">
+    <text x="600" y="108" font-size="56" font-weight="700">Bangla Government-Service Assistant</text>
+    <text x="600" y="156" font-size="25" fill-opacity="0.9">Source-grounded answers about Bangladesh passport and NID services</text>
+    <text x="600" y="206" font-size="19" fill-opacity="0.75">RAG · LangGraph · FastAPI · Streamlit · English and Bangla</text>
+  </g>
+</svg>
