@@ -1,0 +1,33 @@
+# Run the whole stack on your own machine:  make up   (then open http://localhost:8501)
+# The API image comes from the Dockerfile, the same one Render builds.
+services:
+  api:
+    build: .
+    env_file: .env  # holds GEMINI_API_KEY and GROQ_API_KEY; this file is never committed
+    environment:
+      DATABASE_PATH: /tmp/app.sqlite3  # request log; lost on restart, like on Render
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 15s
+      timeout: 8s
+      retries: 5
+      start_period: 40s
+
+  ui:
+    image: python:3.12-slim
+    working_dir: /workspace
+    volumes:
+      - ./ui:/workspace/ui:ro  # only the page's code, read-only
+      - ./.streamlit:/workspace/.streamlit:ro  # the theme settings
+    environment:
+      API_URL: http://api:8000
+    command: >
+      sh -c "pip install --no-cache-dir -r ui/requirements.txt &&
+             streamlit run ui/app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true"
+    ports:
+      - "8501:8501"
+    depends_on:
+      api:
+        condition: service_healthy
