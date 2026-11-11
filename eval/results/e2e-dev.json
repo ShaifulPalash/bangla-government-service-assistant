@@ -38,7 +38,7 @@
       ],
       "citation_ok": true,
       "language_ok": true,
-      "top_score": 0.8073083162307739,
+      "top_score": 0.8415061831474304,
       "provider": "groq",
       "path": [
         "prepare",
@@ -48,7 +48,7 @@
         "answer",
         "respond"
       ],
-      "message": "ই‑পাসপোর্টের ফি (১৫% VAT সহ) ৪৮ পেজ, ৫ বছরের জন্য: রেগুলার ডেলিভারি – টিকেঃ 4,025; এক্সপ্রেস – টিকেঃ 6,325; সুপার এক্সপ্রেস – টিকেঃ 8,625। ৪৮ পেজ, ১০ বছরের জন্য: রেগুলার – টিকেঃ 5,750; এক্সপ্রেস – টিকেঃ 8,050; সুপার এক্সপ্রেস – টিকেঃ 10,350। ৬৪ পেজ, ৫ বছরের জন্য: রেগুলার – টিকেঃ 6,325; এক্সপ্রেস – টিকেঃ 8,625; সুপার এক্সপ্রেস – টিকেঃ 12,075। ৬৪ পেজ, ১০ বছরের জন্য: রেগুলার – টিকেঃ 8,050; এক্সপ্রেস – টিকেঃ 10,350; সুপার এক্সপ্রেস – টিকেঃ 13,800। (সূত্র: ২০২৬‑০৭‑১২ তারিখের তথ্য)"
+      "message": "ই‑পাসপোর্টের ফি (২০২৬‑০৭‑১২ তারিখের তথ্য অনুযায়ী) ৪৮ পৃষ্ঠার ৫ বছরের পাসপোর্টের জন্য: রেগুলার ডেলিভারি – টিকেঃ ৪,০২৫, এক্সপ্রেস ডেলিভারি – টিকেঃ ৬,৩২৫, সুপার‑এক্সপ্রেস ডেলিভারি – টিকেঃ ৮,৬২৫। ৪৮ পৃষ্ঠার ১০ বছরের পাসপোর্টের জন্য: রেগুলার – টিকেঃ ৫,৭৫০, এক্সপ্রেস – টিকেঃ ৮,০৫০, সুপার‑এক্সপ্রেস – টিকেঃ ১০,৩৫০। (ফি-তে ১৫% ভ্যাট অন্তর্ভুক্ত; অন্যান্য গ্রুপের ফি আলাদা হতে পারে।)"
     },
     {
       "id": "q002",
@@ -67,7 +67,7 @@
       ],
       "citation_ok": true,
       "language_ok": true,
-      "top_score": 0.8257086277008057,
+      "top_score": 0.8242501616477966,
       "provider": "groq",
       "path": [
         "prepare",
@@ -77,7 +77,7 @@
         "answer",
         "respond"
       ],
-      "message": "You can pay the e‑passport fee online through the e‑Passport portal using A‑Challan, DGePay or ShurjoPay, which accept VISA, MasterCard, American Express, bKash, Nagad, Rocket, Upay, Dmoney, OK Wallet and many banks. After selecting a method, you can download the payment slip from the portal and complete the transaction. (Source: 12 July 2026) [1][2]"
+      "message": "You can pay the e‑passport fee online through the e‑Passport portal using the \"A‑Challan\", \"DGePay\" or \"ShurjoPay\" options, which accept VISA, MasterCard, American Express, bKash, Nagad, Rocket, Upay, Dmoney, OK Wallet and many local banks. After selecting a method, follow the on‑screen instructions to complete the payment and download the receipt."
     },
     {
       "id": "q003",
@@ -108,7 +108,7 @@
         "answer",
         "respond"
       ],
-      "message": "You must bring: (1) the printed PDF of your online application (including appointment details); (2) the payment slip/receipt if you are paying offline; (3) your original NID card (or birth certificate) and a photocopy; (4) the original and a photocopy of the online birth registration certificate (English version); (5) your previous passport if you have one; and (6) GO/NOC if you are a government employee. Requirements are based on the latest updates from May 2025 and October 2024 and may change."
+      "message": "For e‑passport enrollment you must bring: (1) the printed PDF of your online application (including appointment details); (2) the payment slip/receipt if you are paying offline; (3) your original NID card and a photocopy (for applicants over 20 years); (4) the original birth registration certificate (English version) and a photocopy; (5) any previous passport and its data‑page copy, if you have one; and (6) a GO/NOC if you are a government employee. Requirements are based on the latest official checklists (2025‑05‑07 and 2024‑10‑21) and may change."
     },
     {
       "id": "q004",
@@ -137,7 +137,7 @@
         "answer",
         "respond"
       ],
-      "message": "ই‑পাসপোর্টের আবেদন করতে নিম্নলিখিত ধাপগুলো অনুসরণ করুন:\n1. অনলাইনে ই‑পাসপোর্ট ফরম পূরণ করুন।\n2. কোনো কাগজপত্রের সত্যায়ন প্রয়োজন নেই।\n3. ফরমে ছবি সংযোজন ও তার সত্যায়ন দরকার নেই।\n4. জাতীয় পরিচয়পত্র (NID) অথবা অনলাইন জন্মনিবন্ধন সনদ (BRC English Version) অনুযায়ী ফরম পূরণ করুন।\n5. ১৮ বছরের কম আবেদনকারীর ক্ষেত্রে, যদি NID না থাকে, তবে পিতা বা মাতার NID নম্বর উল্লেখ করুন।\n6. আবেদন জমা দিন এবং প্রয়োজনীয় মূল NID/BRC ইত্যাদি প্রদর্শন/দাখিল করুন।"
+      "message": "১. ই‑পাসপোর্টের আবেদন ফর্ম অনলাইনে পূরণ করুন।\n২. ফর্মে জাতীয় পরিচয়পত্র (NID) অথবা অনলাইন জন্মনিবন্ধন সনদ (BRC) অনুযায়ী তথ্য লিখুন; অপ্রাপ্ত বয়স্কের ক্ষেত্রে পিতামাতার NID নম্বর উল্লেখ করুন।\n৩. আবেদন জমা দিন এবং মূল NID, BRC (প্রয়োজন হলে) এবং প্রযোজ্য টেকনিক্যাল সনদ/GO/NOC ইত্যাদি দাখিল করুন।\n৪. পাসপোর্টের ধরন (অতি জরুরি, জরুরি, রেগুলার) নির্বাচন করুন; নির্বাচনের ভিত্তিতে ২, ৭ বা ১৫ কর্মদিবসের মধ্যে পাসপোর্ট প্রদান হবে।\n৫. পেমেন্ট করুন এবং পাসপোর্টের স্ট্যাটাস অনলাইনে ট্র্যাক করুন।"
     },
     {
       "id": "q006",
@@ -168,7 +168,7 @@
         "answer",
         "respond"
       ],
-      "message": "পাসপোর্ট হারিয়ে গেলে নিকটস্থ থানায় দ্রুত জিডি (GD) করতে হবে এবং জিডি কপি সংগ্রহ করতে হবে। এরপর পুরাতন পাসপোর্টের ফটোকপি এবং জিডি কপিসহ আবেদনপত্র দাখিল করতে হবে। আবেদনপত্রে ৩R সাইজের ল্যাব প্রিন্ট রঙিন ছবি সংযোজন করতে হবে।"
+      "message": "পাসপোর্ট হারিয়ে গেলে নিকটস্থ থানায় জিডি (General Diary) করতে হবে এবং মূল জিডি কপি সংগ্রহ করতে হবে; এরপর পুনরায় পাসপোর্টের জন্য আবেদনপত্রে পুরাতন পাসপোর্টের ফটোকপি এবং জিডি কপি সংযুক্ত করে দাখিল করতে হবে।"
     },
     {
       "id": "q008",
@@ -189,7 +189,7 @@
       ],
       "citation_ok": true,
       "language_ok": true,
-      "top_score": 0.7881336808204651,
+      "top_score": 0.7815761566162109,
       "provider": "groq",
       "path": [
         "prepare",
@@ -199,7 +199,7 @@
         "answer",
         "respond"
       ],
-      "message": "For a regular e‑passport, the processing time is 15 working days; urgent requests take 7 working days and very urgent requests take 2 working days."
+      "message": "Inside Bangladesh, a regular e‑passport is issued within 15 working days, an urgent e‑passport within 7 working days, and an ultra‑urgent e‑passport within 2 working days after the biometric enrolment, provided all information is correct. [2]"
     },
     {
       "id": "q010",
@@ -228,7 +228,7 @@
         "answer",
         "respond"
       ],
-      "message": "হারানো বা নষ্ট হওয়া জাতীয় পরিচয়পত্রের জন্য ফরম‑৬ (NID Form 6) পূরণ করতে হয়।"
+      "message": "হারানো বা নষ্ট হওয়া এনআইডি কার্ডের জন্য ‘ফরম‑৬’ (NID Form 6) পূরণ করতে হয়।"
     },
     {
       "id": "q011",
@@ -258,7 +258,7 @@
         "answer",
         "respond"
       ],
-      "message": "To replace a lost NID card, submit an online re‑issue application; after approval you will receive a notification on your mobile or email, then you can download the NID card copy from the online portal. A fee is required (see the official fee schedule)."
+      "message": "1. Apply online for a re‑issue of the lost NID card through the official portal. 2. After your application is approved, you will receive a notification by mobile or email. 3. Download the copy of your NID card from the online system. 4. Pay the required fee (see the fee schedule on the NID website) – fees may change, so check the latest rates."
     },
     {
       "id": "q012",
@@ -270,6 +270,7 @@
       "reason": "ok",
       "behavior_ok": true,
       "cited_docs": [
+        "nid-009",
         "nid-011"
       ],
       "expected_docs": [
@@ -318,7 +319,7 @@
         "answer",
         "respond"
       ],
-      "message": "According to the NID FAQ, the following items on a NID card can be corrected: name (Bangla/English), birth date, father's/mother's or spouse's status (e.g., mistakenly marked as deceased), signature (once only), and any single piece of information that was entered incorrectly (each item can be corrected only once) [1][2]."
+      "message": "According to the NID FAQ, the following items can be corrected on a NID card: name (Bangla/English), birth date, father's, mother's or spouse's status (e.g., mistakenly marked as deceased), and signature (once only). Each piece of information can be corrected only once, and the correction must be supported by appropriate documents and submitted to the relevant office. [1][2]"
     },
     {
       "id": "q014",
@@ -348,7 +349,7 @@
         "answer",
         "respond"
       ],
-      "message": "প্রথমবার ভোটার হতে নিম্নলিখিত কাগজপত্র প্রয়োজন: জন্ম নিবন্ধন সনদ, এস.এস.সি বা সমমানের পরীক্ষা পাসের সনদ, ঠিকানা প্রমাণের জন্য ইউটিলিটি বিলের কপি, নাগরিকত্বের সনদ, বাবা‑মা (এবং বিবাহিত হলে স্বামী/স্ত্রীর) এনআইডি কার্ডের ফটোকপি, এবং পাসপোর্ট, ড্রাইভিং লাইসেন্স অথবা টিআইএন নম্বরের কপি।"
+      "message": "প্রথমবার ভোটার নিবন্ধনের জন্য প্রয়োজনীয় কাগজপত্র হল: ১. জন্ম নিবন্ধন সনদ, ২. এস.এস.সি বা সমমানের পরীক্ষার সনদ (যদি থাকে), ৩. ঠিকানার প্রমাণ হিসেবে কোনো ইউটিলিটি বিলের কপি, ৪. নাগরিক সনদ (প্রযোজ্য হলে), ৫. বাবা‑মা ও বিবাহিত হলে স্বামী/স্ত্রীর এনআইডি কার্ডের ফটোকপি, ৬. পাসপোর্ট, ড্রাইভিং লাইসেন্স অথবা টিআইএন নম্বর (যদি থাকে)।"
     },
     {
       "id": "q018",
@@ -379,7 +380,7 @@
         "answer",
         "respond"
       ],
-      "message": "এনআইডি সংশোধনের জন্য সংশোধনের বিষয়ের ভিত্তিতে প্রমাণপত্রের সত্যায়িত অনুলিপি জমা দিতে হয়: \n1. শিক্ষাগত যোগ্যতার পরিবর্তনের জন্য সর্বোচ্চ শিক্ষার সনদপত্রের সত্যায়িত অনুলিপি; \n2. পাসপোর্ট/ড্রাইভিং লাইসেন্স/টিআইএন নম্বরের পরিবর্তনের জন্য সংশ্লিষ্ট পাসপোর্ট/ড্রাইভিং লাইসেন্স/টিআইএন সনদের সত্যায়িত অনুলিপি; \n3. বিবাহ, তালাক বা স্বামীর নাম সংযোজন/বিয়োজনের জন্য কাবিননামা/তালাকনামা/মৃত্যু সনদ/ম্যাজিস্ট্রেট আদালতে সম্পাদিত হলফনামা/বিবাহ বিচ্ছেদ ডিক্রির সত্যায়িত অনুলিপি; \n4. পিতা/মাতার নামের পরিবর্তনের জন্য এসএসসি/এইচএসসি বা সমমানের সনদ (যেখানে নাম আছে) এবং পিতা, মাতা, ভাই‑বোনের এনআইডির সত্যায়িত অনুলিপি; \n5. ঠিকানা পরিবর্তনের জন্য বাড়ির দলিল, টেলিফোন/গ্যাস/পানির বিল বা ভাড়ার চুক্তিপত্রের সত্যায়িত অনুলিপি; \n6. রক্তের গ্রুপ পরিবর্তনের জন্য ডাক্তারী সনদপত্রের সত্যায়িত অনুলিপি।\n(উল্লেখিত তথ্য ২০২৬-১০-১৫ তারিখের সরকারি নথি থেকে নেওয়া; নিয়ম পরিবর্তন হতে পারে।)"
+      "message": "এনআইডি সংশোধনের জন্য আবেদনপত্রের সঙ্গে সংশ্লিষ্ট সংশোধনের স্বপক্ষে প্রমাণপত্রের সত্যায়িত অনুলিপি জমা দিতে হবে; উদাহরণস্বরূপ, (১) শিক্ষাগত যোগ্যতা পরিবর্তনের জন্য সর্বোচ্চ শিক্ষাগত সনদপত্রের সত্যায়িত অনুলিপি, (২) ঠিকানা পরিবর্তনের জন্য বাড়ির দলিল, টেলিফোন/গ্যাস/পানির বিল বা ভাড়ার চুক্তিপত্রের সত্যায়িত অনুলিপি, (৩) রক্তের গ্রুপ পরিবর্তনের জন্য ডাক্তারী সনদপত্র, (৪) পিতা/মাতার নাম পরিবর্তনের জন্য এসএসসি/এইচএসসি বা সমমানের সনদ এবং সংশ্লিষ্ট পরিবারের জাতীয় পরিচয়পত্রের সত্যায়িত অনুলিপি, (৫) বিবাহ/বিচ্ছেদ/মৃত্যু সংক্রান্ত পরিবর্তনের জন্য কাবিননামা/তালাকনামা/মৃত্যু সনদ বা হলফনামা/বিচ্ছেদ ডিক্রির সত্যায়িত অনুলিপি, এবং (৬) টিআইএন/ড্রাইভিং লাইসেন্স/পাসপোর্ট নম্বর পরিবর্তনের জন্য সংশ্লিষ্ট নথির সত্যায়িত অনুলিপি।"
     },
     {
       "id": "q019",
@@ -545,7 +546,7 @@
         "answer",
         "respond"
       ],
-      "message": "The fee for correcting an NID card is BDT 200 plus 15% VAT, total BDT 230 (as of the fee schedule checked on 2026-10-15)."
+      "message": "The fee for correcting an NID card (first application) is BDT 200 plus 15% VAT (BDT 30), total **BDT 230** (as of the fee schedule checked on 15 October 2026)."
     },
     {
       "id": "q029",
@@ -575,7 +576,7 @@
         "answer",
         "respond"
       ],
-      "message": "The most recent e‑Passport enrollment checklist was last updated on 21 October 2024."
+      "message": "The latest e‑Passport enrollment checklist was updated on 21 October 2024."
     }
   ]
 }
