@@ -107,6 +107,44 @@ def strip_gazette_prices(text: str) -> tuple[str, int]:
     return _GAZETTE_PRICE.subn("", text)
 
 
+# The fee page repeats the same row labels in several tables (inside Bangladesh in TK, missions
+# abroad in USD). A chunk boundary can separate a table from its heading, and a model then
+# pairs rows by label. So every fee row gets its group and passport type in front of it.
+_FEE_GROUP = re.compile(r"^e\W?passport fees for (.+?)[:\s]*$", re.IGNORECASE)
+_FEE_VARIANT = re.compile(
+    r"^e\W?passport with (\d+) pages and (\d+) years validity\s*$",
+    re.IGNORECASE,
+)
+_FEE_ROW = re.compile(
+    r"^(?:Regular|Express|Super Express) delivery\s*:\s*(?:TK|USD)\s*[\d,]+\s*$",
+    re.IGNORECASE,
+)
+
+
+def label_fee_rows(text: str) -> tuple[str, int]:
+    """Prefix each fee row with its applicant group and passport type.
+
+    The original row text stays unchanged inside the new line. Returns (new text, rows labelled).
+    """
+    group = variant = None
+    lines: list[str] = []
+    labelled = 0
+    for line in text.splitlines():
+        stripped = re.sub(r"\s+", " ", line.replace("\u2011", "-")).strip()
+        group_match = _FEE_GROUP.match(stripped)
+        variant_match = _FEE_VARIANT.match(stripped)
+        if group_match:
+            group, variant = group_match.group(1).strip(), None
+        elif variant_match:
+            variant = f"{variant_match.group(1)} pages, {variant_match.group(2)} years validity"
+        elif group and variant and _FEE_ROW.match(stripped):
+            lines.append(f"Fee for {group} | {variant} | {stripped}")
+            labelled += 1
+            continue
+        lines.append(line)
+    return "\n".join(lines), labelled
+
+
 def scan_pii(text: str) -> dict[str, int]:
     """Count possible personal data. Only counts are returned, never the matched text."""
     folded = fold_digits(text)

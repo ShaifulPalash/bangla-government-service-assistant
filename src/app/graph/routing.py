@@ -66,3 +66,27 @@ def is_out_of_scope_topic(question: str) -> bool:
     return bool(OUT_OF_SCOPE_LATIN.search(question)) or any(
         w in question for w in OUT_OF_SCOPE_BANGLA
     )
+
+
+# Passport fee tables are separate for inside Bangladesh (TK) and Bangladesh missions (USD).
+# Fee questions that do not mention missions or abroad are searched with the inside-Bangladesh
+# heading added, so those rows rank first. Only the SEARCH text changes: the model still
+# reads the visitor's own words.
+_FEE_WORDS = re.compile(
+    r"\b(?:fees?|cost|costs|price|prices|charges?|how much)\b"
+    r"|(?<![\u0980-\u09ff])ফি(?![\u0980-\u09ff])|খরচ|মূল্য|টাকা",
+    re.IGNORECASE,
+)
+_ABROAD_WORDS = re.compile(
+    r"\b(?:abroad|overseas|mission|embassy|consulate|usd|dollars?|labou?rs?|students?|foreign)\b"
+    r"|বিদেশ|মিশন|দূতাবাস|ডলার|শ্রমিক|ছাত্র|শিক্ষার্থী",
+    re.IGNORECASE,
+)
+INSIDE_BANGLADESH_HINT = "Fee for inside Bangladesh (Including 15% VAT)"
+
+
+def search_text(question: str, service: str) -> str:
+    """The text used to find passages: the question, plus a hint for passport fee questions."""
+    if service == "passport" and _FEE_WORDS.search(question) and not _ABROAD_WORDS.search(question):
+        return f"{question} ({INSIDE_BANGLADESH_HINT})"
+    return question

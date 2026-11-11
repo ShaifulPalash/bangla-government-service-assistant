@@ -24,7 +24,7 @@ from langgraph.graph import END, START, StateGraph
 
 from app.graph.evidence import best_score, has_enough_evidence
 from app.graph.numbers import unsupported_numbers
-from app.graph.routing import classify_service, is_out_of_scope_topic
+from app.graph.routing import classify_service, is_out_of_scope_topic, search_text
 from app.graph.safety import message_for, safety_check
 from app.indexing.embeddings import EmbeddingError
 from app.llm.language import answer_language, detect_language
@@ -130,7 +130,8 @@ def build_graph(retriever, chain, top_k: int = TOP_K):
     def retrieve(state: State) -> dict:
         service = state["service"] if state["service"] in ("passport", "nid") else None
         try:
-            passages = retriever.retrieve(state["question"], k=top_k, service=service)
+            query = search_text(state["question"], state["service"])
+            passages = retriever.retrieve(query, k=top_k, service=service)
         except EmbeddingError as error:
             logger.error("retrieval failed: %s", error)
             return {"retrieval_failed": True, "passages": [], "path": ["retrieve"]}

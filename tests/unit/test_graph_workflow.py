@@ -171,3 +171,11 @@ def test_two_passages_of_one_document_become_one_citation():
     result = run("How much is the e-passport fee?", retriever, chain)
     assert len(result["citations"]) == 1
     assert result["citations"][0]["numbers"] == [1, 2]
+
+
+def test_a_passport_fee_question_searches_with_the_hint_but_the_model_reads_the_original():
+    retriever, chain = FakeRetriever([passage(0.82)]), FakeChain(reply())
+    run("How much is the passport fee?", retriever, chain)
+    assert "inside Bangladesh" in retriever.calls[0]["question"]
+    assert "inside Bangladesh" not in chain.prompts[0]
+    assert "How much is the passport fee?" in chain.prompts[0]

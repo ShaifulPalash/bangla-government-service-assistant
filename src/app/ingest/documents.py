@@ -12,6 +12,7 @@ from pathlib import Path
 
 from app.ingest.sources import load_registry
 from app.ingest.text_cleaning import (
+    label_fee_rows,
     redact_phones,
     scan_pii,
     split_pages,
@@ -51,6 +52,9 @@ FINAL_TEXT = {
 # NID FAQ footer) are kept on purpose, and are still counted in pii_flags for review.
 REDACT_PHONES_FOR = {"ppt-006"}
 
+# Documents whose fee tables are rewritten row by row, so a row never loses its heading.
+LABEL_FEE_ROWS_FOR = {"ppt-002"}
+
 # Metadata copied from sources.yaml into every record.
 KEEP_FIELDS = (
     "id",
@@ -80,6 +84,9 @@ def build_record(meta: dict, path: Path, extraction: str) -> dict:
     prices_removed = 0
     if extraction == "ocr_reviewed":
         cleaned, prices_removed = strip_gazette_prices(cleaned)
+    fee_rows_labelled = 0
+    if meta.get("id") in LABEL_FEE_ROWS_FOR:
+        cleaned, fee_rows_labelled = label_fee_rows(cleaned)
     phones_removed = 0
     if meta.get("id") in REDACT_PHONES_FOR:
         cleaned, phones_removed = redact_phones(cleaned)
@@ -95,6 +102,7 @@ def build_record(meta: dict, path: Path, extraction: str) -> dict:
             "replacement_chars": full_text.count("\ufffd"),
             "phones_removed": phones_removed,
             "gazette_prices_removed": prices_removed,
+            "fee_rows_labelled": fee_rows_labelled,
             "pii_flags": scan_pii(full_text),
         }
     )
