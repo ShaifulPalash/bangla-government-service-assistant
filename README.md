@@ -82,7 +82,7 @@ so many questions never reach a language model. See the [full workflow diagram](
 | Workflow | LangGraph | explicit, testable steps instead of one long prompt |
 | API | FastAPI with Pydantic | validation, automatic documentation, clear errors |
 | Page | Streamlit | quick to build a chat page; bilingual interface |
-| Quality | pytest (357 tests), Ruff, pre-commit, GitHub Actions | the same checks run locally and on every push |
+| Quality | pytest (372 tests), Ruff, pre-commit, GitHub Actions | the same checks run locally and on every push |
 | Packaging | Docker and docker-compose | the same image runs locally and on Render |
 
 ## Evaluation
@@ -158,7 +158,7 @@ src/app/evaluation/   metrics and the end-to-end evaluation
 ui/                   Streamlit page and its API client
 eval/                 labelled questions and saved results
 docs/                 workflow diagram, evaluation targets, data verification notes
-tests/unit/           357 tests
+tests/unit/           372 tests
 ```
 
 ## Limitations
