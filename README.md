@@ -46,8 +46,10 @@ This assistant answers only from a curated set of official documents and shows w
 | | |
 |---|---|
 | ![Start page](docs/screenshots/01-app-interface.png) | ![English answer](docs/screenshots/02-chat-english-answer.png) |
-| ![Bangla answer](docs/screenshots/03-chat-bangla-answer.png) | ![Source cards](docs/screenshots/04-english-source-cards-and-dates.png) |
-| ![Clarifying question](docs/screenshots/06-clarifying-question.png) | ![Refusal](docs/screenshots/07-refusal-low-confidence.png) |
+| ![Bangla answer](docs/screenshots/03-chat-bangla-answer.png) | ![English source cards](docs/screenshots/04-english-source-cards-and-dates.png) |
+| ![Bangla source cards](docs/screenshots/05-bangla-source-cards-and-dates.png) | ![Clarifying question](docs/screenshots/06-clarifying-question.png) |
+| ![Refusal](docs/screenshots/07-refusal-low-confidence.png) | ![Technical details panel](docs/screenshots/08-debug-panel.png) |
+| ![API documentation](docs/screenshots/09-api-docs-swagger.png) | ![API chat response](docs/screenshots/10-api-chat-response.png) |
 
 ## How it works
 
@@ -82,7 +84,7 @@ so many questions never reach a language model. See the [full workflow diagram](
 | Workflow | LangGraph | explicit, testable steps instead of one long prompt |
 | API | FastAPI with Pydantic | validation, automatic documentation, clear errors |
 | Page | Streamlit | quick to build a chat page; bilingual interface |
-| Quality | pytest (372 tests), Ruff, pre-commit, GitHub Actions | the same checks run locally and on every push |
+| Quality | pytest (357 tests), Ruff, pre-commit, GitHub Actions | the same checks run locally and on every push |
 | Packaging | Docker and docker-compose | the same image runs locally and on Render |
 
 ## Evaluation
@@ -158,8 +160,15 @@ src/app/evaluation/   metrics and the end-to-end evaluation
 ui/                   Streamlit page and its API client
 eval/                 labelled questions and saved results
 docs/                 workflow diagram, evaluation targets, data verification notes
-tests/unit/           372 tests
+tests/unit/           357 tests
 ```
+
+## Documentation
+
+- [Methodology: what was built and why](docs/methodology.md)
+- [Evaluation targets](docs/evaluation-targets.md) and [evaluation results](docs/evaluation-results.md)
+- [Workflow diagram](docs/workflow.md)
+- [Data verification notes](docs/data-verification.md)
 
 ## Limitations
 
@@ -171,6 +180,9 @@ tests/unit/           372 tests
   about a Bangla document scored below it and was refused.
 - The per-visitor rate limit is approximate behind Render's proxies; the global limit is the firm protection.
 - Free hosting sleeps when idle, and free-tier AI quotas are small.
+- Renewal and re-issue **fees** are not stated in the collected documents, so the assistant declines those questions. It can answer which documents a re-issue needs.
+- Passport fee questions that do not mention missions abroad, USD, labors, or students are answered with the inside-Bangladesh (TK) fees. Other applicant groups have separate fee tables and are answered only when the question names them.
+- Answers are written by a language model. The number check catches figures that are not in the sources, but it cannot catch a sentence that goes beyond what a source states, so confirm important details on the official site.
 
 ## Data and sources
 
