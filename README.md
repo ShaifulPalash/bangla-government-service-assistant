@@ -68,7 +68,7 @@ so many questions never reach a language model. See the [full workflow diagram](
 
 1. **Prepare**: replace personal numbers with placeholders, run the safety checks, detect the language
 2. **Classify**: passport, NID, both, or unclear; refuse topics outside the project's scope
-3. **Retrieve**: meaning search over 189 passages, limited to the service
+3. **Retrieve**: meaning search over 192 passages, limited to the service
 4. **Check the evidence**: a weak best match means clarify (service unclear) or refuse (service named)
 5. **Answer**: a short prompt with 3 passages; the reply must be valid JSON with citations
 6. **Verify**: citations must point at real passages, and every number must appear in the sources
@@ -84,7 +84,7 @@ so many questions never reach a language model. See the [full workflow diagram](
 | Workflow | LangGraph | explicit, testable steps instead of one long prompt |
 | API | FastAPI with Pydantic | validation, automatic documentation, clear errors |
 | Page | Streamlit | quick to build a chat page; bilingual interface |
-| Quality | pytest (357 tests), Ruff, pre-commit, GitHub Actions | the same checks run locally and on every push |
+| Quality | pytest (372 tests), Ruff, pre-commit, GitHub Actions | the same checks run locally and on every push |
 | Packaging | Docker and docker-compose | the same image runs locally and on Render |
 
 ## Evaluation
@@ -160,7 +160,7 @@ src/app/evaluation/   metrics and the end-to-end evaluation
 ui/                   Streamlit page and its API client
 eval/                 labelled questions and saved results
 docs/                 workflow diagram, evaluation targets, data verification notes
-tests/unit/           357 tests
+tests/unit/           372 tests
 ```
 
 ## Documentation
