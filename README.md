@@ -169,6 +169,7 @@ tests/unit/           372 tests
 - [Evaluation targets](docs/evaluation-targets.md) and [evaluation results](docs/evaluation-results.md)
 - [Workflow diagram](docs/workflow.md)
 - [Data verification notes](docs/data-verification.md)
+- [Final report (PDF)](docs/report/final-report.pdf)
 
 ## Limitations
 
