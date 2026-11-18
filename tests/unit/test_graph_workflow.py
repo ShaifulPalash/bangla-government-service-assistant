@@ -2,7 +2,7 @@
 
 import json
 
-from app.graph.workflow import ask, build_graph
+from app.graph.workflow import ask, build_graph, say
 from app.indexing.embeddings import EmbeddingError
 from app.llm.providers import LLMError, LLMResult
 
@@ -179,3 +179,46 @@ def test_a_passport_fee_question_searches_with_the_hint_but_the_model_reads_the_
     assert "inside Bangladesh" in retriever.calls[0]["question"]
     assert "inside Bangladesh" not in chain.prompts[0]
     assert "How much is the passport fee?" in chain.prompts[0]
+
+
+def test_a_renewal_fee_question_gets_separate_official_and_practical_notes():
+    retriever, chain = FakeRetriever([passage(0.82)]), FakeChain(reply())
+    result = run("What is the passport renewal fee?", retriever, chain)
+
+    assert result["decision"] == "answer"
+
+    # The LLM receives instructions for official information only.
+    assert "official-information section only" in chain.prompts[0]
+    assert "Do not include practical-experience claims" in chain.prompts[0]
+
+    # The official-information notice is separate from practical experience.
+    assert any("renewing or re-issuing" in notice for notice in result["notices"])
+    assert result["practical_note"] == say("renewal_practical", "en")
+
+
+def test_an_ordinary_fee_question_has_no_renewal_note():
+    retriever, chain = FakeRetriever([passage(0.82)]), FakeChain(reply())
+    result = run("How much is the passport fee?", retriever, chain)
+    assert "renewing or re-issuing" not in chain.prompts[0]
+    assert result["notices"] == []
+
+
+def test_a_bangla_renewal_fee_question_gets_a_bangla_practical_note():
+    retriever, chain = FakeRetriever([passage(0.82)]), FakeChain(reply())
+    result = run("পাসপোর্ট নবায়নের খরচ কত?", retriever, chain)
+
+    assert result["decision"] == "answer"
+    assert result["practical_note"] == say("renewal_practical", "bn")
+
+
+def test_a_refused_renewal_fee_question_gets_no_renewal_notes():
+    chain = FakeChain(reply(can_answer=False, sources=()))
+    result = run(
+        "What is the passport renewal fee?",
+        FakeRetriever([passage(0.82)]),
+        chain,
+    )
+
+    assert result["decision"] == "refuse"
+    assert not any("renewing or re-issuing" in notice for notice in result["notices"])
+    assert result["practical_note"] is None

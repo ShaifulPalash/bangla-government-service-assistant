@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 
 from app.api.main import create_app
 from app.api.storage import SQLiteStorage
+from app.graph.safety import message_for
 
 
 def answer_result(
@@ -14,6 +15,7 @@ def answer_result(
     reason="ok",
     message="The passport fee depends on the service selected.",
     notices=None,
+    practical_note=None,
 ):
     """Build a representative workflow result without calling a real model."""
     return {
@@ -31,6 +33,7 @@ def answer_result(
             }
         ],
         "notices": notices or [],
+        "practical_note": practical_note,
         "top_score": 0.9,
         "provider": "fake",
         "model": "fake-model",
@@ -113,7 +116,7 @@ def test_cached_answer_recomputes_privacy_notice(tmp_path, monkeypatch):
     client, _, calls = make_client(
         tmp_path,
         monkeypatch,
-        answer_result(notices=["Original workflow notice"]),
+        answer_result(notices=[message_for("privacy", "en")]),
     )
 
     with client:
@@ -232,3 +235,41 @@ def test_feedback_rejects_invalid_rating_and_category(tmp_path, monkeypatch):
 
     assert bad_rating.status_code == 422
     assert bad_category.status_code == 422
+
+
+def test_a_cached_answer_keeps_its_own_notices_and_practical_note(tmp_path, monkeypatch):
+    note = "Official renewal fee notice"
+    practical_note = (
+        "In common practice in Bangladesh, renewal applicants generally "
+        "follow the same fee schedule as new applicants."
+    )
+
+    client, storage, calls = make_client(
+        tmp_path,
+        monkeypatch,
+        answer_result(
+            notices=[note],
+            practical_note=practical_note,
+        ),
+    )
+
+    with client:
+        first = client.post(
+            "/chat",
+            json={"question": "What is the passport renewal fee?"},
+        )
+        second = client.post(
+            "/chat",
+            json={"question": "What is the passport renewal fee?"},
+        )
+
+    assert first.status_code == 200
+    assert first.json()["notices"] == [note]
+    assert first.json()["practical_note"] == practical_note
+
+    assert second.status_code == 200
+    assert second.json()["cached"] is True
+    assert second.json()["notices"] == [note]
+    assert second.json()["practical_note"] == practical_note
+
+    assert len(calls) == 1

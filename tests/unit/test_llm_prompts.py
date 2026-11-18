@@ -44,6 +44,12 @@ def test_system_prompt_states_the_key_rules():
         assert phrase in SYSTEM_PROMPT
 
 
+def test_system_prompt_defines_the_renewal_fee_exception():
+    assert "passport renewal or re-issue fees" in SYSTEM_PROMPT
+    assert "does not" in SYSTEM_PROMPT
+    assert 'set "can_answer" to true' in SYSTEM_PROMPT
+
+
 def test_plain_json_is_read():
     parsed = parse_answer('{"can_answer": true, "answer": "TK 4,025 [1]", "sources": [1]}')
     assert parsed == ParsedAnswer(True, "TK 4,025 [1]", [1])
@@ -77,3 +83,16 @@ def test_system_prompt_requires_exact_numbers_and_plain_citations():
     assert "exactly as they are written" in SYSTEM_PROMPT
     assert "plain square brackets" in SYSTEM_PROMPT
     assert "ANSWER LANGUAGE" in SYSTEM_PROMPT
+
+
+def test_user_prompt_includes_a_note_when_given():
+    note = "Provide the general inside-Bangladesh fee list."
+    prompt = build_user_prompt("What is the renewal fee?", [passage()], note=note)
+
+    assert prompt.endswith(f"NOTE\n{note}")
+
+
+def test_user_prompt_omits_the_note_when_not_given():
+    prompt = build_user_prompt("What is the fee?", [passage()])
+
+    assert "\n\nNOTE\n" not in prompt

@@ -78,6 +78,7 @@ class ChatResponse(BaseModel):
     service: str | None = None
     citations: list[dict] = Field(default_factory=list)
     notices: list[str] = Field(default_factory=list)
+    practical_note: str | None = None
     top_score: float | None = None
     provider: str | None = None
     model: str | None = None
@@ -306,11 +307,12 @@ def create_app(
                 )
             app.state.answer_cache.put(checked.question, result)
         else:
-            # A cached result must not carry a privacy notice from a different request.
+            # A cached result must not carry a privacy notice from a different request,
+            # but it keeps its other notices (for example the renewal-fee notice).
             result = dict(result)
-            result["notices"] = (
-                [message_for("privacy", result.get("language", "en"))] if checked.redacted else []
-            )
+            privacy = message_for("privacy", result.get("language", "en"))
+            others = [n for n in (result.get("notices") or []) if n != privacy]
+            result["notices"] = ([privacy] if checked.redacted else []) + others
 
         took_ms = int((time.perf_counter() - started) * 1000)
         status_code = 503 if result["decision"] == "unavailable" else 200
@@ -340,6 +342,7 @@ def create_app(
             service=result.get("service"),
             citations=citations,
             notices=result.get("notices") or [],
+            practical_note=result.get("practical_note"),
             top_score=result.get("top_score"),
             provider=result.get("provider"),
             model=result.get("model"),
