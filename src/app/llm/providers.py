@@ -189,10 +189,27 @@ class GroqClient:
             self.client, GROQ_URL, {"Authorization": f"Bearer {self.api_key}"}, body, self.sleep
         )
         choices = data.get("choices") or []
-        text = (choices[0].get("message", {}).get("content") or "").strip() if choices else ""
+        choice = choices[0] if choices else {}
+        message = choice.get("message") or {}
+        text = (message.get("content") or "").strip()
+
         if not text:
-            raise LLMError("empty answer")
-        usage = data.get("usage", {})
+            usage = data.get("usage") or {}
+            details = usage.get("completion_tokens_details") or {}
+            reasoning = details.get("reasoning_tokens")
+
+            message_fields = ",".join(sorted(message.keys())) or "none"
+            refusal_present = bool(message.get("refusal"))
+            tool_calls = len(message.get("tool_calls") or [])
+
+            raise LLMError(
+                f"empty answer (finish reason: {choice.get('finish_reason')}, "
+                f"output tokens: {usage.get('completion_tokens')}, "
+                f"reasoning tokens: {reasoning}, "
+                f"message fields: {message_fields}, "
+                f"refusal: {refusal_present}, tool calls: {tool_calls})"
+            )
+        usage = data.get("usage") or {}
         return LLMResult(
             text=text,
             provider=self.provider,
