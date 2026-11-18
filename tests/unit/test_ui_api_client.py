@@ -32,6 +32,21 @@ def test_a_normal_reply_becomes_an_answer():
     assert (answer.cached, answer.took_ms, answer.provider) == (True, 120, "groq")
 
 
+def test_a_practical_note_is_preserved_in_the_answer():
+    practical_note = "Renewal applicants generally follow the same fee schedule."
+
+    reply = body(practical_note=practical_note)
+    answer = client_for(lambda request: httpx.Response(200, json=reply)).ask("fee?")
+
+    assert answer.practical_note == practical_note
+
+
+def test_a_missing_practical_note_defaults_to_none():
+    answer = client_for(lambda request: httpx.Response(200, json=body())).ask("fee?")
+
+    assert answer.practical_note is None
+
+
 def test_the_question_is_sent_to_chat():
     seen = []
 

@@ -24,11 +24,11 @@ from langgraph.graph import END, START, StateGraph
 
 from app.graph.evidence import best_score, has_enough_evidence
 from app.graph.numbers import unsupported_numbers
-from app.graph.routing import classify_service, is_out_of_scope_topic, search_text
+from app.graph.routing import asks_renewal_fee, classify_service, is_out_of_scope_topic, search_text
 from app.graph.safety import message_for, safety_check
 from app.indexing.embeddings import EmbeddingError
 from app.llm.language import answer_language, detect_language
-from app.llm.prompts import SYSTEM_PROMPT, build_user_prompt, parse_answer
+from app.llm.prompts import RENEWAL_FEE_NOTE, SYSTEM_PROMPT, build_user_prompt, parse_answer
 from app.llm.providers import LLMError
 
 logger = logging.getLogger(__name__)
@@ -60,6 +60,44 @@ MESSAGES = {
         "en": "The assistant is temporarily unavailable. Please try again in a few minutes.",
         "bn": "সহকারী সাময়িকভাবে পাওয়া যাচ্ছে না। কয়েক মিনিট পরে আবার চেষ্টা করুন।",
     },
+    "renewal_fee": {
+        "en": (
+            "The available official documents do not explicitly state a separate "
+            "fee for renewing or re-issuing a passport. The fees listed in this "
+            "answer are the general e-passport fees for applicants inside Bangladesh. "
+            "The official documents do not explicitly confirm whether this fee "
+            "schedule applies to renewal. Please verify the applicable requirements "
+            "and fees at epassport.gov.bd."
+        ),
+        "bn": (
+            "যেসব সরকারি নথি পাওয়া গেছে, সেগুলোতে পাসপোর্ট নবায়ন বা "
+            "পুনঃইস্যুর জন্য আলাদা কোনো ফি স্পষ্টভাবে উল্লেখ নেই। "
+            "এই উত্তরে দেওয়া ফি বাংলাদেশের অভ্যন্তরে আবেদনকারীদের জন্য "
+            "সাধারণ ই-পাসপোর্টের ফি। সরকারি নথিতে এই ফি নবায়নের ক্ষেত্রেও "
+            "প্রযোজ্য কি না, তা স্পষ্টভাবে নিশ্চিত করা হয়নি। "
+            "প্রযোজ্য নিয়ম ও ফি epassport.gov.bd-তে যাচাই করুন।"
+        ),
+    },
+    "renewal_practical": {
+        "en": (
+            "In common practice in Bangladesh, passport renewal applicants "
+            "generally follow the same fee schedule and application process as "
+            "new passport applicants. For the same passport type, page count, "
+            "validity period and delivery category, the fees are generally the "
+            "same, and the processing time is also generally the same. This "
+            "reflects commonly reported practical experience, not an explicitly "
+            "documented official policy."
+        ),
+        "bn": (
+            "তবে বাংলাদেশে প্রচলিত অভিজ্ঞতা অনুযায়ী, পাসপোর্ট নবায়নের "
+            "আবেদনকারীরা সাধারণত নতুন পাসপোর্টের আবেদনকারীদের মতো একই ফি "
+            "তালিকা ও আবেদন প্রক্রিয়া অনুসরণ করেন। পাসপোর্টের ধরন, পৃষ্ঠা "
+            "সংখ্যা, মেয়াদ এবং বিতরণের ধরন একই হলে সাধারণত ফিও একই হয় এবং "
+            "পাসপোর্ট হাতে পাওয়ার সময়ও সাধারণত একই হয়। এটি প্রচলিত "
+            "ব্যবহারিক অভিজ্ঞতার ভিত্তিতে বলা হয়েছে, সরকারি নথিতে স্পষ্টভাবে "
+            "লিপিবদ্ধ কোনো নীতির ভিত্তিতে নয়।"
+        ),
+    },
 }
 
 
@@ -77,6 +115,7 @@ class State(TypedDict, total=False):
     language: str  # "bn", "bn-latn" or "en"
     service: str  # "passport", "nid", "both" or "unclear"
     out_of_scope: bool
+    renewal_fee: bool
     passages: list[dict]  # what the search found
     retrieval_failed: bool
     top_score: float
@@ -93,6 +132,14 @@ def finish(
     """Build the final result. Every ending of the graph goes through here."""
     language = state.get("language", "en")
     llm = state.get("llm") or {}
+    notices = [message_for("privacy", language)] if state.get("redacted") else []
+    if decision == "answer" and state.get("renewal_fee"):
+        notices.append(say("renewal_fee", language))
+    practical_note = (
+        say("renewal_practical", language)
+        if decision == "answer" and state.get("renewal_fee")
+        else None
+    )
     result = {
         "decision": decision,
         "reason": reason,
@@ -100,7 +147,8 @@ def finish(
         "language": language,
         "service": state.get("service"),
         "citations": citations or [],
-        "notices": [message_for("privacy", language)] if state.get("redacted") else [],
+        "notices": notices,
+        "practical_note": practical_note,
         "top_score": state.get("top_score"),
         "provider": llm.get("provider"),
         "model": llm.get("model"),
@@ -125,7 +173,12 @@ def build_graph(retriever, chain, top_k: int = TOP_K):
     def classify(state: State) -> dict:
         service = classify_service(state["question"])
         out_of_scope = service == "unclear" and is_out_of_scope_topic(state["question"])
-        return {"service": service, "out_of_scope": out_of_scope, "path": ["classify"]}
+        return {
+            "service": service,
+            "out_of_scope": out_of_scope,
+            "renewal_fee": asks_renewal_fee(state["question"], service),
+            "path": ["classify"],
+        }
 
     def retrieve(state: State) -> dict:
         service = state["service"] if state["service"] in ("passport", "nid") else None
@@ -147,7 +200,8 @@ def build_graph(retriever, chain, top_k: int = TOP_K):
 
     def answer(state: State) -> dict:
         language_name = answer_language(state["language"])
-        prompt = build_user_prompt(state["question"], state["passages"], language_name)
+        note = RENEWAL_FEE_NOTE if state.get("renewal_fee") else None
+        prompt = build_user_prompt(state["question"], state["passages"], language_name, note)
         try:
             reply = chain.generate(
                 SYSTEM_PROMPT, prompt, accept=lambda text: parse_answer(text).can_answer is not None

@@ -90,3 +90,26 @@ def search_text(question: str, service: str) -> str:
     if service == "passport" and _FEE_WORDS.search(question) and not _ABROAD_WORDS.search(question):
         return f"{question} ({INSIDE_BANGLADESH_HINT})"
     return question
+
+
+# A question about the FEE for renewing or re-issuing a passport. No collected source states such
+# a fee, so the model is told to say so, and the result carries a fixed notice.
+_RENEWAL_WORDS = re.compile(
+    r"\b(?:renew(?:al|als|ed|ing)?|re-?issu(?:e|es|ed|ing|ance))\b"
+    r"|রিনিউ|নবায়ন|রি-?ইস্যু|পুনঃ-?ইস্যু|পুনঃ-?জারি",
+    re.IGNORECASE,
+)
+_MONEY_WORDS = re.compile(
+    r"\b(?:fees?|costs?|prices?|charges?|taka|tk)\b"
+    r"|(?<![\u0980-\u09ff])ফি(?![\u0980-\u09ff])|খরচ|টাকা",
+    re.IGNORECASE,
+)
+
+
+def asks_renewal_fee(question: str, service: str) -> bool:
+    """True for a passport question that asks what renewing or re-issuing costs."""
+    return (
+        service == "passport"
+        and bool(_RENEWAL_WORDS.search(question))
+        and bool(_MONEY_WORDS.search(question))
+    )

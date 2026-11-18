@@ -16,6 +16,12 @@ Rules:
 fees, dates, deadlines, phone numbers or requirements.
 2. If the SOURCES do not contain the answer, set "can_answer" to false and say briefly \
 that you could not find it in the official documents.
+2a. Exception: if the QUESTION asks about passport renewal or re-issue fees and the \
+user prompt contains a NOTE with specific instructions for this case, follow those \
+NOTE instructions. The absence of an explicitly documented renewal fee does not \
+by itself make the question unanswerable. When the NOTE instructs you to provide \
+the general inside-Bangladesh fee list with the stated qualifications, set \
+"can_answer" to true.
 3. Cite the sources you used with plain square brackets like [1] or [2] inside the answer.
 4. When you state a fee, deadline or requirement, mention the date of its source and say \
 that rules can change.
@@ -54,13 +60,34 @@ def format_sources(passages: list[dict], max_chars: int = MAX_PASSAGE_CHARS) -> 
     return "\n\n".join(blocks)
 
 
+RENEWAL_FEE_NOTE = (
+    "The question asks about the fee for renewing or re-issuing a passport. "
+    "No available official source explicitly states a separate renewal or "
+    "re-issue fee. In your answer, provide the official-information section only: "
+    "(1) explain that the available official sources do not explicitly specify "
+    "a renewal or re-issue fee; "
+    "(2) give the general e-passport fee list for applicants inside Bangladesh, "
+    "citing the official fee source; "
+    "(3) clarify that the official sources do not explicitly confirm whether "
+    "this fee list applies to renewal. "
+    "Do not include practical-experience claims in the answer. A separate "
+    "practical-experience note is displayed by the application. "
+    "Set can_answer to true."
+)
+
+
 def build_user_prompt(
-    question: str, passages: list[dict], answer_language: str | None = None
+    question: str,
+    passages: list[dict],
+    answer_language: str | None = None,
+    note: str | None = None,
 ) -> str:
-    """The message that carries the evidence, the question and the language to answer in."""
+    """The message that carries the evidence, the question, the answer language and any note."""
     prompt = f"SOURCES\n{format_sources(passages)}\n\nQUESTION\n{question}"
     if answer_language:
         prompt += f"\n\nANSWER LANGUAGE\n{answer_language}"
+    if note:
+        prompt += f"\n\nNOTE\n{note}"
     return prompt
 
 
