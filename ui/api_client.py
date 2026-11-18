@@ -37,6 +37,7 @@ class Answer:
     language: str
     citations: list[dict] = field(default_factory=list)
     notices: list[str] = field(default_factory=list)
+    practical_note: str | None = None
     provider: str | None = None
     model: str | None = None
     path: list[str] = field(default_factory=list)
@@ -53,6 +54,7 @@ def _to_answer(data: dict) -> Answer:
         language=str(data.get("language", "en")),
         citations=list(data.get("citations") or []),
         notices=list(data.get("notices") or []),
+        practical_note=data.get("practical_note"),
         provider=data.get("provider"),
         model=data.get("model"),
         path=list(data.get("path") or []),

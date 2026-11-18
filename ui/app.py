@@ -4,6 +4,7 @@ Run it locally with:  .venv-ui/bin/streamlit run ui/app.py
 It only talks to the web API (see api_client.py); no search or AI code runs here.
 """
 
+import html
 import os
 import sys
 from pathlib import Path
@@ -92,6 +93,7 @@ TEXT = {
             "Answers use the language of your question. The documents belong to the "
             "agencies that publish them; each answer links to its source."
         ),
+        "practical_experience": "Practical experience (not confirmed official policy)",
     },
     "bn": {
         "title": "বাংলা সরকারি-সেবা সহকারী",
@@ -132,6 +134,7 @@ TEXT = {
         "about": (
             "উত্তর আপনার প্রশ্নের ভাষায় দেওয়া হয়। নথিগুলো প্রকাশকারী সংস্থার; প্রতিটি উত্তরে সূত্রের লিংক থাকে।"
         ),
+        "practical_experience": "ব্যবহারিক অভিজ্ঞতা (সরকারি নীতিতে নিশ্চিত নয়)",
     },
 }
 
@@ -261,6 +264,12 @@ div.app-banner.compact p {
 .notice.privacy {
     background: #fffaf0;
     border-left-color: #d97706;
+}
+
+.notice.practical {
+    background: #ecfdf5;
+    border-left-color: #16a34a;
+    color: #14532d;
 }
 
 /* Section labels */
@@ -401,6 +410,16 @@ def show_feedback(answer: Answer, client: ApiClient) -> None:
 def show_answer(answer: Answer, client: ApiClient, debug: bool) -> None:
     for notice in answer.notices:
         st.warning(notice)
+
+    if answer.practical_note:
+        practical_note = html.escape(answer.practical_note)
+        label_language = "bn" if answer.language in ("bn", "bn-latn") else "en"
+        label = html.escape(t("practical_experience", label_language))
+        st.markdown(
+            f'<div class="notice practical">ℹ️ <strong>{label}:</strong> {practical_note}</div>',
+            unsafe_allow_html=True,
+        )
+
     text = safe(localize_answer(answer.message, answer.language))
     if answer.decision == "answer":
         st.markdown(text)
