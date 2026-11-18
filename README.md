@@ -9,9 +9,12 @@
   <a href="https://bangla-gov-assistant.streamlit.app"><img src="https://img.shields.io/badge/live%20demo-Streamlit-ff4b4b" alt="Live demo"></a>
 </p>
 
-A bilingual (Bangla and English) assistant that answers questions about Bangladesh **passport** and **NID** services
-using official documents. Every answer shows its sources and their dates, and the assistant refuses or asks a
-question back when the evidence is weak, instead of guessing.
+A bilingual (Bangla and English) assistant for questions about Bangladesh
+passport and National Identity Card (NID) services. It retrieves information
+from a curated collection of official government documents and provides
+source citations and dates for supported answers. When evidence is insufficient
+or a question is ambiguous, it asks for clarification or declines to answer
+rather than guessing.
 
 > This is an independent informational project, **not an official government service**. It cannot submit
 > applications or take payments. Please confirm important details on the official websites.
@@ -62,8 +65,8 @@ only: it cannot submit applications or take payments.
 
 ## Features
 
-- Questions in **English, Bangla, and Bangla typed in English letters**; answers come back in the language of the question
-- **Cited answers**: every answer links to its source document with the date it was updated or checked
+- Questions in **English, Bangla, and Bangla written in English letters**; answers are generated in the detected language
+- **Cited answers**: supported answers include links to their source documents and relevant source dates
 - **Refusals and clarifying questions**: out-of-scope topics are refused, unclear questions get "passport or NID?"
 - **Safety**: personal numbers (NID, passport, phone) are removed before anything is sent to a model; attempts to
   override the rules or to ask for someone else's data are refused
@@ -104,7 +107,7 @@ so many questions never reach a language model. See the [full workflow diagram](
 
 1. **Prepare**: replace personal numbers with placeholders, run the safety checks, detect the language
 2. **Classify**: passport, NID, both, or unclear; refuse topics outside the project's scope
-3. **Retrieve**: meaning search over 192 passages, limited to the service
+3. **Retrieve**: search the indexed knowledge base using the selected retrieval strategy, limited to the relevant service
 4. **Check the evidence**: a weak best match means clarify (service unclear) or refuse (service named)
 5. **Answer**: a short prompt with 3 passages; the reply must be valid JSON with citations
 6. **Verify**: citations must point at real passages, and every number must appear in the sources
@@ -115,12 +118,12 @@ so many questions never reach a language model. See the [full workflow diagram](
 |---|---|---|
 | Embeddings | Gemini `gemini-embedding-2`, 768 dimensions | works across Bangla and English; free tier |
 | Vector store | ChromaDB | persistent, small (index is about 4 MB), easy to ship in a Docker image |
-| Retrieval | meaning search | on the development questions it found the right document first every time; the keyword and hybrid variants did worse |
-| Language model | Groq `gpt-oss-120b`, Gemini `3.5-flash-lite` as backup | in a 10-question comparison Groq was fastest and invented no numbers |
+| Retrieval | Chroma vector search, BM25 keyword search, and hybrid search using reciprocal-rank fusion (RRF) | Meaning search is the default because it performed better on the development evaluation questions. |
+| Language model | Groq `openai/gpt-oss-120b`, Gemini `gemini-3.5-flash-lite` as backup | Groq was fastest and did not invent any numbers in a 10-question comparison, but matched the expected answer language in 7 of 10 questions. |
 | Workflow | LangGraph | explicit, testable steps instead of one long prompt |
 | API | FastAPI with Pydantic | validation, automatic documentation, clear errors |
 | Page | Streamlit | quick to build a chat page; bilingual interface |
-| Quality | pytest (372 tests), Ruff, pre-commit, GitHub Actions | the same checks run locally and on every push |
+| Quality | pytest (397 tests), Ruff, pre-commit, GitHub Actions | the same checks run locally and on every push |
 | Packaging | Docker and docker-compose | the same image runs locally and on Render |
 
 The reasoning behind each choice is in [`docs/methodology.md`](docs/methodology.md).
@@ -170,11 +173,10 @@ Settings are read from environment variables or from the `.env` file (never comm
 
 ### Build the knowledge base
 
-Collect the documents listed in [`data/sources.yaml`](data/sources.yaml). Some pages need a browser and were copied by
-hand; see [`docs/data-verification.md`](docs/data-verification.md). Place each source's final text where the table
-`FINAL_TEXT` in `src/app/ingest/documents.py` expects it, then run:
+Run `make fetch-sources` to download the sources that are available automatically. Some pages still require manual collection; see [`docs/data-verification.md`](docs/data-verification.md). Place each manually collected source's final text where the table `FINAL_TEXT` in `src/app/ingest/documents.py` expects it, then run:
 
 ```bash
+make fetch-sources
 make check-sources
 make build-documents && make build-chunks && make embed-chunks && make build-index
 ```
@@ -219,8 +221,7 @@ curl -s -X POST http://localhost:8000/chat \
   -d '{"question": "How much does an e-passport cost?"}'
 ```
 
-The reply (shortened) has these fields: `request_id`, `decision`, `reason`, `message`, `language`, `service`,
-`citations` (title, link, date), `notices`, `top_score`, `provider`, `model`, `path`, `took_ms`, and `cached`.
+The reply (shortened) has these fields: `request_id`, `decision`, `reason`, `message`, `language`, `service`, `citations` (title, link, date), `notices`, optional `practical_note`, `top_score`, `provider`, `model`, `path`, `took_ms`, and `cached`.
 
 | `decision` | Meaning |
 |---|---|
@@ -235,7 +236,7 @@ A too-short or too-long question returns 422, and too many requests return 429 w
 
 ```bash
 make lint          # Ruff checks and format check
-make test          # 372 unit tests
+make test          # 397 unit tests
 make hooks         # install the pre-commit hooks
 python scripts/api_smoke.py --url https://bangla-gov-api.onrender.com   # check a running API
 ```
@@ -259,21 +260,25 @@ python scripts/api_smoke.py --url https://bangla-gov-api.onrender.com   # check 
 ## Project structure
 
 ```
-src/app/ingest/       source registry, PDF and OCR extraction, text cleaning
-src/app/indexing/     chunking, embeddings, Chroma and keyword indexes
-src/app/retrieval/    meaning, keyword, and hybrid search
-src/app/graph/        routing, safety, evidence check, number check, LangGraph workflow
-src/app/llm/          prompts, language detection, Groq and Gemini clients with fallback
-src/app/api/          FastAPI endpoints, cache, rate limits, request log
-src/app/evaluation/   metrics and the end-to-end evaluation
-ui/                   Streamlit page, its API client, and its requirements
-tests/unit/           372 unit tests
-eval/                 labelled questions and saved results
-data/sources.yaml     the list of official sources, with their dates
-scripts/              helper scripts (ask a question, smoke test, view a document, download sources)
-docs/                 methodology, evaluation, workflow diagram, report, screenshots, banner
-.github/workflows/    CI
-Dockerfile, docker-compose.yml, Makefile, requirements*.txt, .pre-commit-config.yaml
+src/app/
+  ingest/              source registry, PDF/OCR extraction, text cleaning
+  indexing/            chunking, embeddings, Chroma and keyword indexes
+  retrieval/           meaning, keyword, and hybrid search
+  graph/               routing, safety, evidence and number checks, workflow
+  llm/                 prompts, language detection, Groq/Gemini providers
+  api/                 FastAPI endpoints, cache, rate limits, request log
+  evaluation/          retrieval, end-to-end evaluation, metrics, model bake-off
+ui/                    Streamlit app, API client, Bangla formatting
+tests/unit/            397 unit tests
+eval/                  labelled questions and saved evaluation results
+data/sources.yaml      official source registry and metadata
+scripts/               source fetching, indexing checks, smoke tests, debugging
+docs/                  methodology, evaluation, workflow, verification, report
+.github/workflows/     GitHub Actions CI
+.devcontainer/         development container configuration
+.streamlit/            Streamlit theme and app configuration
+Dockerfile, docker-compose.yml, Makefile, pyproject.toml
+requirements*.txt, .pre-commit-config.yaml
 ```
 
 ## Evaluation
@@ -293,14 +298,18 @@ unseen and run **once** at the end (test split). The acceptance targets were
 
 On the development split, all 20 questions ended in the labelled decision.
 
-**What went wrong on the test split.** One answerable question was wrongly refused because its best match scored just
-under the evidence threshold. One answer quoted a **Gazette page price as a fee**: the number really appeared in the
-source, so the number check let it through. A later manual test found passport fee tables for different applicant
-groups mixed in one answer. Both causes were fixed afterwards (the scanned text was cleaned, and every fee row now
-carries its applicant group), and the development split was re-checked. The test numbers above describe the system
+**What went wrong on the test split.** One answerable question was wrongly refused because its best match scored just under the evidence threshold. One answer quoted a **Gazette page price as a fee**: the number really appeared in the source, so the number check let it through. A later manual test found passport fee tables for different applicant groups mixed in one answer. The Gazette-price issue was addressed by cleaning the scanned text, and the mixed-fee-table issue was addressed by ensuring every fee row carries its applicant group. The development split was re-checked after subsequent changes. The test numbers above describe the system
 **before** those fixes. Ten questions is very small: one question moves a score by 10 points.
 
 Full results are in [`docs/evaluation-results.md`](docs/evaluation-results.md) and [`eval/results/`](eval/results).
+
+**Post-evaluation improvement.** A later manual test identified inconsistent handling of passport
+renewal and re-issue fee questions. This was addressed after the test-split evaluation: the assistant
+now provides a sourced notice explaining that the collected official documents do not specify a
+separate renewal/re-issue fee, presents the general e-passport fee schedule with a qualification that
+its applicability to renewals is not explicitly confirmed by those sources, and displays separate
+practical guidance labelled as experience rather than documented official policy. This improvement
+was not included in the test-split scores above.
 
 ## Documentation
 
@@ -314,17 +323,21 @@ Full results are in [`docs/evaluation-results.md`](docs/evaluation-results.md) a
 
 - The knowledge base covers **only passport and NID**, from 17 documents; tax and utilities are out of scope.
 - Official rules and fees change. Each answer shows its source date; always confirm on the official site.
-- Renewal and re-issue **fees** are not stated in the collected documents, so the assistant declines those questions.
-  It can answer which documents a re-issue needs.
-- Passport fee questions that do not mention missions abroad, USD, labors, or students are answered with the
-  inside-Bangladesh (TK) fees. Other applicant groups have separate fee tables and are answered only when the question
-  names them.
-- The model chooses which source to cite, so a citation can point to a related document of a different year, and it can
-  add a detail that no source states (for example a form name). The number check does not catch words or single-digit
-  numbers, so confirm important details on the official site.
+- The collected official documents do not specify a separate passport renewal or re-issue fee. For
+  these questions, the assistant presents the general e-passport fee schedule with a qualification
+  that the sources do not explicitly confirm its applicability to renewals. It also displays separate
+  practical guidance, clearly labelled as experience rather than documented official policy. Confirm
+  applicable fees with the Department of Immigration and Passports before applying.
+- The assistant can also answer which documents are required for a passport re-issue.
+- Passport fee questions that do not mention overseas missions, USD fees, labour applicants, or
+  students are answered using the fee schedule for applications within Bangladesh (BDT).
+  Other applicant groups have separate fee tables and are answered only when the question names them.
+- The model chooses which source to cite, so a citation can point to a related document of a different
+  year, and it can add a detail that no source states (for example a form name). The number check does
+  not catch words or single-digit numbers, so confirm important details on the official site.
 - The scanned legal texts were only partly checked against the originals.
-- The evidence threshold was tuned on 20 questions, and the margin around it is thin: one correct English question
-  about a Bangla document scored below it and was refused.
+- The evidence threshold was tuned on 20 questions, and the margin around it is thin: one correct
+  English question about a Bangla document scored below it and was refused.
 - The per-visitor rate limit is approximate behind Render's proxies; the global limit is the firm protection.
 - Free hosting sleeps when idle, and free-tier AI quotas are small.
 
@@ -333,18 +346,19 @@ Full results are in [`docs/evaluation-results.md`](docs/evaluation-results.md) a
 - Check answers against their sources sentence by sentence, not only figures
 - A larger labelled question set, graded by more than one reader
 - A lower evidence threshold when the service is named, validated on new questions
-- More documents: tax, utilities, and renewal fees if an official page states them
+- Add authoritative renewal/re-issue fee documentation if the relevant government agency publishes it
+- Expand coverage to tax and utility services
 
 ## Troubleshooting
 
 | Symptom | Likely cause | What to do |
 |---|---|---|
-| The page says the server did not respond, or the first answer is slow | the free API host was asleep | wait a minute or two, then reload; opening `/health` on the API first wakes it |
-| HTTP 429 | too many requests | wait for the number of seconds in `Retry-After` |
-| "Vector index not found" | the index has not been built | run `make build-index` after building the documents and embeddings |
-| An error that the index was built with another model or size | the embedding settings changed | rebuild with `make embed-chunks` and `make build-index` |
-| `decision: unavailable` | the search or both language models failed | check the API keys and your free-tier quotas |
-| A commit stops after "files were modified by this hook" | pre-commit fixed a file, as designed | run `git add` on the files, then commit again |
+| The page says the server did not respond, or the first answer is slow | The free API host may be waking up or temporarily unavailable | Wait briefly and retry. If the problem continues, check the API `/health` endpoint and the Render service status and logs. |
+| HTTP 429 | Too many requests or a rate limit has been reached | Wait for the duration specified in the `Retry-After` response header before trying again. |
+| `Vector index not found` | The search index has not been built | Run `make build-index` after building the documents and embeddings. |
+| An error says the index was built with another model or embedding dimension | The embedding model or its configuration has changed | Rebuild the embeddings with `make embed-chunks`, then rebuild the indexes with `make build-index`. |
+| `decision: unavailable` | The search system or both language-model providers failed | Check the API keys, provider availability, network connection, and free-tier quotas. |
+| A commit stops after "files were modified by this hook" | A pre-commit hook automatically fixed one or more files | Review the changes, stage the intended files with `git add`, and run the commit command again. |
 
 ## Contributing
 
